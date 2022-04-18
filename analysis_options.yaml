@@ -16,6 +16,9 @@ linter:
     - avoid_field_initializers_in_const_classes
 
 analyzer:
+  exclude:
+    - lib/**.g.dart
+    - lib/**.freezed.dart
   errors:
     missing_return: error
     must_be_immutable: error
