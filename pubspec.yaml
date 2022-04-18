@@ -13,6 +13,8 @@ dependencies:
   # core dependencies
   auto_route: ^3.2.4
   riverpod: ^1.0.3
+  hooks_riverpod: ^1.0.3
+  flutter_hooks: ^0.18.3
   flutter_riverpod: ^1.0.3
   freezed_annotation: ^1.1.0
   json_annotation: ^4.4.0
