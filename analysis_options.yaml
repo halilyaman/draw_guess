@@ -2,3 +2,25 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
+    - constant_identifier_names
+    - cancel_subscriptions
+    - prefer_single_quotes
+    - close_sinks
+    - avoid_dynamic_calls
+    - control_flow_in_finally
+    - always_declare_return_types
+    - valid_regexps
+    - use_key_in_widget_constructors
+    - always_require_non_null_named_parameters
+    - avoid_catches_without_on_clauses
+    - avoid_field_initializers_in_const_classes
+
+analyzer:
+  errors:
+    missing_return: error
+    must_be_immutable: error
+    must_call_super: error
+    invalid_use_of_protected_member: error
+    parameter_assignments: error
+    sort_unnamed_constructors_first: ignore
+    sort_pub_dependencies: ignore
