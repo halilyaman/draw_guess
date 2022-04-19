@@ -22,9 +22,10 @@ Line _$LineFromJson(Map<String, dynamic> json) {
 class _$LineTearOff {
   const _$LineTearOff();
 
-  _Line call({required List<Point> points}) {
+  _Line call({required List<Point> points, required int color}) {
     return _Line(
       points: points,
+      color: color,
     );
   }
 
@@ -38,7 +39,9 @@ const $Line = _$LineTearOff();
 
 /// @nodoc
 mixin _$Line {
-  List<Point> get points => throw _privateConstructorUsedError;
+  List<Point> get points =>
+      throw _privateConstructorUsedError; // value of a color. Ex: Colors.green.value
+  int get color => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +52,7 @@ mixin _$Line {
 abstract class $LineCopyWith<$Res> {
   factory $LineCopyWith(Line value, $Res Function(Line) then) =
       _$LineCopyWithImpl<$Res>;
-  $Res call({List<Point> points});
+  $Res call({List<Point> points, int color});
 }
 
 /// @nodoc
@@ -63,12 +66,17 @@ class _$LineCopyWithImpl<$Res> implements $LineCopyWith<$Res> {
   @override
   $Res call({
     Object? points = freezed,
+    Object? color = freezed,
   }) {
     return _then(_value.copyWith(
       points: points == freezed
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
               as List<Point>,
+      color: color == freezed
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -78,7 +86,7 @@ abstract class _$LineCopyWith<$Res> implements $LineCopyWith<$Res> {
   factory _$LineCopyWith(_Line value, $Res Function(_Line) then) =
       __$LineCopyWithImpl<$Res>;
   @override
-  $Res call({List<Point> points});
+  $Res call({List<Point> points, int color});
 }
 
 /// @nodoc
@@ -93,12 +101,17 @@ class __$LineCopyWithImpl<$Res> extends _$LineCopyWithImpl<$Res>
   @override
   $Res call({
     Object? points = freezed,
+    Object? color = freezed,
   }) {
     return _then(_Line(
       points: points == freezed
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
               as List<Point>,
+      color: color == freezed
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -107,16 +120,18 @@ class __$LineCopyWithImpl<$Res> extends _$LineCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$_Line implements _Line {
-  const _$_Line({required this.points});
+  const _$_Line({required this.points, required this.color});
 
   factory _$_Line.fromJson(Map<String, dynamic> json) => _$$_LineFromJson(json);
 
   @override
   final List<Point> points;
+  @override // value of a color. Ex: Colors.green.value
+  final int color;
 
   @override
   String toString() {
-    return 'Line(points: $points)';
+    return 'Line(points: $points, color: $color)';
   }
 
   @override
@@ -124,12 +139,15 @@ class _$_Line implements _Line {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Line &&
-            const DeepCollectionEquality().equals(other.points, points));
+            const DeepCollectionEquality().equals(other.points, points) &&
+            const DeepCollectionEquality().equals(other.color, color));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(points));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(points),
+      const DeepCollectionEquality().hash(color));
 
   @JsonKey(ignore: true)
   @override
@@ -143,12 +161,15 @@ class _$_Line implements _Line {
 }
 
 abstract class _Line implements Line {
-  const factory _Line({required List<Point> points}) = _$_Line;
+  const factory _Line({required List<Point> points, required int color}) =
+      _$_Line;
 
   factory _Line.fromJson(Map<String, dynamic> json) = _$_Line.fromJson;
 
   @override
   List<Point> get points;
+  @override // value of a color. Ex: Colors.green.value
+  int get color;
   @override
   @JsonKey(ignore: true)
   _$LineCopyWith<_Line> get copyWith => throw _privateConstructorUsedError;

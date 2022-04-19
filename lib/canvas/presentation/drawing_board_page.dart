@@ -6,11 +6,20 @@ class DrawingBoardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.grey,
+        body: Column(
           children: [
-            const Expanded(child: DrawingBoard()),
+            Expanded(
+              child: Padding(
+                padding: const AppPadding.all() * 5,
+                child: const BorderRadiusBox(
+                  force: true,
+                  child: DrawingBoard(),
+                ),
+              ),
+            ),
             Consumer(
               builder: (_, ref, __) => ElevatedButton(
                 onPressed: () {

@@ -10,10 +10,12 @@ _$_Line _$$_LineFromJson(Map<String, dynamic> json) => _$_Line(
       points: (json['points'] as List<dynamic>)
           .map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
+      color: json['color'] as int,
     );
 
 Map<String, dynamic> _$$_LineToJson(_$_Line instance) => <String, dynamic>{
       'points': instance.points.map((e) => e.toJson()).toList(),
+      'color': instance.color,
     };
 
 _$_Point _$$_PointFromJson(Map<String, dynamic> json) => _$_Point(
