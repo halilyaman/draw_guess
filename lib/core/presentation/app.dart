@@ -14,6 +14,7 @@ class DrawGuessApp extends HookConsumerWidget {
     return Consumer(
       builder: (_, ref, __) => MaterialApp.router(
         title: 'Draw & Guess',
+        useInheritedMediaQuery: true,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
