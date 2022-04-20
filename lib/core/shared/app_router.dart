@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:draw_guess/authentication/authentication.dart';
 import 'package:draw_guess/canvas/canvas.dart';
+import 'package:draw_guess/home/home.dart';
 import 'package:draw_guess/splash/splash.dart';
 
 @MaterialAutoRouter(
@@ -17,6 +18,10 @@ import 'package:draw_guess/splash/splash.dart';
     AutoRoute(
       path: '/drawing',
       page: DrawingBoardPage,
+    ),
+    AutoRoute(
+      path: '/home',
+      page: HomePage,
     ),
   ],
 )
