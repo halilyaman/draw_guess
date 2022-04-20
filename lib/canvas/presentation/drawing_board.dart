@@ -20,7 +20,7 @@ class DrawingBoard extends HookConsumerWidget {
       currentLine.value = currentLine.value.copyWith(
         points: [...currentLine.value.points, newPoint],
       );
-      drawingBoardNotifier.draw(currentLine.value);
+      drawingBoardNotifier.drawLine(currentLine.value);
     }
 
     void endDraw(_) {

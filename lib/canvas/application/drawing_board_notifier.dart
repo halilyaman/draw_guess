@@ -23,7 +23,7 @@ class DrawingBoardState with _$DrawingBoardState {
 class DrawingBoardNotifier extends StateNotifier<DrawingBoardState> {
   DrawingBoardNotifier() : super(const DrawingBoardState.waiting([]));
 
-  void draw(Line newLine) {
+  void drawLine(Line newLine) {
     state = DrawingBoardState.drawing(state.lines, newLine);
   }
 
