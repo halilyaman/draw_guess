@@ -8,3 +8,5 @@ export 'package:draw_guess/core/presentation/widgets/empty_height.dart';
 export 'package:draw_guess/core/presentation/widgets/empty_width.dart';
 export 'package:draw_guess/core/presentation/widgets/border_radius_box.dart';
 export 'package:draw_guess/core/presentation/app_colors.dart';
+export 'package:draw_guess/firebase_options.dart';
+export 'package:firebase_core/firebase_core.dart';
