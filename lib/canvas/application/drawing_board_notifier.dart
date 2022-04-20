@@ -34,6 +34,13 @@ class DrawingBoardNotifier extends StateNotifier<DrawingBoardState> {
   void clearBoard() {
     state = const DrawingBoardState.waiting([]);
   }
+
+  void back() {
+    if (state.lines.isNotEmpty) {
+      state.lines.removeLast();
+      state = DrawingBoardState.waiting(state.lines);
+    }
+  }
 }
 
 final drawingBoardNotifierProvider =

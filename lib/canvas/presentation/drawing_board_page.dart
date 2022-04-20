@@ -20,17 +20,38 @@ class DrawingBoardPage extends StatelessWidget {
                 ),
               ),
             ),
-            Consumer(
-              builder: (_, ref, __) => ElevatedButton(
-                onPressed: () {
-                  ref.read(drawingBoardNotifierProvider.notifier).clearBoard();
-                },
-                child: const Text('Clear'),
-              ),
-            ),
+            const _DrawingControllerButtons(),
+            const EmptyHeight() * 3,
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DrawingControllerButtons extends ConsumerWidget {
+  const _DrawingControllerButtons({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            ref.read(drawingBoardNotifierProvider.notifier).clearBoard();
+          },
+          child: const Text('Clear Board'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            ref.read(drawingBoardNotifierProvider.notifier).back();
+          },
+          child: const Text('Back'),
+        ),
+      ],
     );
   }
 }
