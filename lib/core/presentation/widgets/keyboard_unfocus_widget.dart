@@ -8,7 +8,8 @@ class KeyboardUnFocusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      behavior: HitTestBehavior.translucent,
+      onTap: FocusManager.instance.primaryFocus?.unfocus,
       child: child,
     );
   }
