@@ -1,6 +1,5 @@
 import 'package:draw_guess/authentication/authentication.dart';
 import 'package:draw_guess/core/core.dart';
-import 'package:flutter/material.dart';
 
 class HomePage extends HookWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,7 +13,9 @@ class HomePage extends HookWidget {
           actions: [
             IconButton(
               icon: const Icon(MdiIcons.plusCircle),
-              onPressed: () {},
+              onPressed: () {
+                Popup.instance.showSuccessPopup();
+              },
             ),
             const Padding(
               padding: AppPadding.all(),

@@ -8,6 +8,7 @@ class DrawGuessApp extends HookConsumerWidget {
     final appRouter = useRef(AppRouter());
     final authNotifier = ref.watch(authNotifierProvider.notifier);
     useEffect(() {
+      App.navigatorKey = appRouter.value.navigatorKey;
       authNotifier.isSignedIn();
       return () {};
     });
@@ -30,7 +31,27 @@ class DrawGuessApp extends HookConsumerWidget {
           ],
         ),
         routeInformationParser: appRouter.value.defaultRouteParser(),
+        builder: (context, child) {
+          final theme = Theme.of(context);
+          final isThemeDark = theme.brightness == Brightness.dark;
+          return Toast(
+            navigatorKey: appRouter.value.navigatorKey,
+            child: FlashTheme(
+              flashBarTheme: isThemeDark
+                  ? const FlashBarThemeData.dark()
+                  : const FlashBarThemeData.light(),
+              flashDialogTheme: const FlashDialogThemeData(),
+              child: child!,
+            ),
+          );
+        },
       ),
     );
   }
+}
+
+class App {
+  App._();
+
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }
