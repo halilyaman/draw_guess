@@ -11,9 +11,7 @@ class SignOutButton extends ConsumerWidget {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(AppColors.white),
       ),
-      onPressed: () {
-        ref.watch(authNotifierProvider.notifier).signOut();
-      },
+      onPressed: ref.watch(authNotifierProvider.notifier).signOut,
       child: const Text('Sign Out'),
     );
   }

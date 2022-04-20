@@ -9,9 +9,7 @@ class GoogleSignInButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
       iconSize: 100,
-      onPressed: () {
-        ref.watch(authNotifierProvider.notifier).signIn();
-      },
+      onPressed: ref.watch(authNotifierProvider.notifier).signIn,
       icon: const Icon(MdiIcons.google),
     );
   }
