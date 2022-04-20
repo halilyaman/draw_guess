@@ -1,3 +1,4 @@
+import 'package:draw_guess/authentication/authentication.dart';
 import 'package:draw_guess/canvas/canvas.dart';
 import 'package:draw_guess/core/core.dart';
 
@@ -11,6 +12,8 @@ class DrawingBoardPage extends StatelessWidget {
         backgroundColor: AppColors.grey,
         body: Column(
           children: [
+            const EmptyHeight(),
+            const SignOutButton(),
             Expanded(
               child: Padding(
                 padding: const AppPadding.all() * 5,
