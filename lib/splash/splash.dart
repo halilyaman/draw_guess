@@ -1,0 +1,1 @@
+export 'package:draw_guess/splash/presentation/splash_page.dart';
