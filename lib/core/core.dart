@@ -12,6 +12,8 @@ export 'package:flutter/services.dart';
 export 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 export 'package:flash/flash.dart';
 export 'package:firebase_storage/firebase_storage.dart';
+export 'dart:async' hide AsyncError;
+
 
 // internal files
 export 'package:draw_guess/firebase_options.dart';
@@ -31,3 +33,4 @@ export 'package:draw_guess/core/presentation/widgets/border_radius_box.dart';
 export 'package:draw_guess/core/presentation/widgets/keyboard_unfocus_widget.dart';
 export 'package:draw_guess/core/presentation/widgets/custom_text_field.dart';
 export 'package:draw_guess/core/presentation/widgets/loading_indicator.dart';
+export 'package:draw_guess/core/presentation/widgets/upload_task_popup.dart';

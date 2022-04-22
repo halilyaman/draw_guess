@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:draw_guess/core/core.dart';
 
 class Popup {
@@ -62,10 +60,10 @@ class Popup {
           position: FlashPosition.top,
           behavior: FlashBehavior.fixed,
           barrierDismissible: false,
-          child: _UploadTaskPopup(
+          child: UploadTaskPopup(
             uploadTask: uploadTask,
             onDone: () async {
-              showSuccessPopup('Upload Successful');
+              showSuccessPopup('Uploaded Successfully');
               final url = await (await uploadTask).ref.getDownloadURL();
               onSuccess(url);
             },
@@ -80,60 +78,5 @@ class Popup {
     Future.delayed(const Duration(seconds: 3))
         .then((value) => completer.complete());
     _context.showBlockDialog(dismissCompleter: completer);
-  }
-}
-
-class _UploadTaskPopup extends StatefulWidget {
-  const _UploadTaskPopup({
-    Key? key,
-    required this.uploadTask,
-    required this.onDone,
-  }) : super(key: key);
-
-  final UploadTask uploadTask;
-  final VoidCallback onDone;
-
-  @override
-  State<_UploadTaskPopup> createState() => _UploadTaskPopupState();
-}
-
-class _UploadTaskPopupState extends State<_UploadTaskPopup> {
-  var value = 0.0;
-  var isDone = false;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      widget.uploadTask.snapshotEvents.listen((taskSnapshot) {
-        value = taskSnapshot.bytesTransferred / taskSnapshot.totalBytes;
-        if (value == 1 && !isDone) {
-          widget.onDone();
-          isDone = true;
-        }
-        if (mounted) {
-          setState(() {});
-        }
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FlashBar(
-      icon: const Icon(
-        MdiIcons.upload,
-        size: 36.0,
-      ),
-      title: Text(
-        'File uploading...',
-        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-              fontSize: 18,
-            ),
-      ),
-      content: LinearProgressIndicator(
-        value: value,
-      ),
-    );
   }
 }
