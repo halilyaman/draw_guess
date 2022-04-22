@@ -1,4 +1,5 @@
 import 'package:draw_guess/core/core.dart';
+import 'package:draw_guess/game/game.dart';
 
 class Popup {
   Popup._() {

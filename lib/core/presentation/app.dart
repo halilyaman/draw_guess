@@ -24,7 +24,7 @@ class DrawGuessApp extends HookConsumerWidget {
             ref.watch(authNotifierProvider).when(
                   initial: () => const SplashRoute(),
                   inProgress: () => const SplashRoute(),
-                  authenticated: () => const HomeRoute(),
+                  authenticated: () => const HomeRouter(),
                   unauthenticated: () => const SignInRoute(),
                   failure: (_) => const SignInRoute(),
                 ),

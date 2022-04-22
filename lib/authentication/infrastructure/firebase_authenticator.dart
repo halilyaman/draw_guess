@@ -1,5 +1,4 @@
 import 'package:draw_guess/core/core.dart';
-import 'package:draw_guess/core/shared/typedefs.dart';
 
 class FirebaseAuthenticator {
   FirebaseAuthenticator(

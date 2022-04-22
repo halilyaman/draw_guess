@@ -5,10 +5,12 @@ class CustomTextField extends StatelessWidget {
     Key? key,
     this.hintText,
     this.controller,
+    this.suffixIcon,
   }) : super(key: key);
 
   final TextEditingController? controller;
   final String? hintText;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,7 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         hintText: hintText,
+        suffixIcon: suffixIcon,
       ),
     );
   }
