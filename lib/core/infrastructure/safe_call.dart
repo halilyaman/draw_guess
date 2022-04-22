@@ -1,5 +1,4 @@
 import 'package:draw_guess/core/core.dart';
-import 'package:draw_guess/core/shared/typedefs.dart';
 
 FailureOr<T> safeAsyncCall<T>(Future<T> Function() f) async {
   try {

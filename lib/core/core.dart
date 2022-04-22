@@ -25,6 +25,7 @@ export 'package:draw_guess/core/domain/failure.dart';
 export 'package:draw_guess/core/infrastructure/safe_call.dart';
 export 'package:draw_guess/core/shared/providers.dart';
 export 'package:draw_guess/core/presentation/popups.dart';
+export 'package:draw_guess/core/shared/typedefs.dart';
 
 // core atomic widgets
 export 'package:draw_guess/core/presentation/widgets/empty_height.dart';
