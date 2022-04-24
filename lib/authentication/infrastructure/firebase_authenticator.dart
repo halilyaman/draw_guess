@@ -9,7 +9,7 @@ class FirebaseAuthenticator {
   final GoogleSignIn _googleSignIn;
   final FirebaseAuth _firebaseAuth;
 
-  FailureOr<UserCredential?> signInWithGoogle() async {
+  AsyncFailureOr<UserCredential?> signInWithGoogle() async {
     final result = await safeAsyncCall<UserCredential?>(() async {
       final account = await _googleSignIn.signIn();
       if (account == null) {
@@ -28,7 +28,7 @@ class FirebaseAuthenticator {
     return result;
   }
 
-  FailureOr<Unit> signOut() async {
+  AsyncFailureOr<Unit> signOut() async {
     final result = await safeAsyncCall<Unit>(() async {
       await _googleSignIn.signOut();
       await _firebaseAuth.signOut();

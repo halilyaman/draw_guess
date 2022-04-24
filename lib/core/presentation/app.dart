@@ -54,4 +54,5 @@ class App {
   App._();
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static BuildContext context = navigatorKey.currentContext!;
 }

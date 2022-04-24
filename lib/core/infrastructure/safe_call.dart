@@ -1,6 +1,6 @@
 import 'package:draw_guess/core/core.dart';
 
-FailureOr<T> safeAsyncCall<T>(Future<T> Function() f) async {
+AsyncFailureOr<T> safeAsyncCall<T>(Future<T> Function() f) async {
   try {
     final result = await f();
     return right(result);

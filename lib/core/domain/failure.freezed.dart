@@ -35,6 +35,12 @@ class _$FailureTearOff {
       message,
     );
   }
+
+  ValidatorFailure validator(List<ValidatorType> failedValidators) {
+    return ValidatorFailure(
+      failedValidators,
+    );
+  }
 }
 
 /// @nodoc
@@ -42,13 +48,12 @@ const $Failure = _$FailureTearOff();
 
 /// @nodoc
 mixin _$Failure {
-  String? get message => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String? message) server,
     required TResult Function(String? message) local,
     required TResult Function(String? message) any,
+    required TResult Function(List<ValidatorType> failedValidators) validator,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,6 +61,7 @@ mixin _$Failure {
     TResult Function(String? message)? server,
     TResult Function(String? message)? local,
     TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +69,7 @@ mixin _$Failure {
     TResult Function(String? message)? server,
     TResult Function(String? message)? local,
     TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -71,6 +78,7 @@ mixin _$Failure {
     required TResult Function(_Server value) server,
     required TResult Function(_Local value) local,
     required TResult Function(_Any value) any,
+    required TResult Function(ValidatorFailure value) validator,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -78,6 +86,7 @@ mixin _$Failure {
     TResult Function(_Server value)? server,
     TResult Function(_Local value)? local,
     TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -85,19 +94,16 @@ mixin _$Failure {
     TResult Function(_Server value)? server,
     TResult Function(_Local value)? local,
     TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $FailureCopyWith<Failure> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $FailureCopyWith<$Res> {
   factory $FailureCopyWith(Failure value, $Res Function(Failure) then) =
       _$FailureCopyWithImpl<$Res>;
-  $Res call({String? message});
 }
 
 /// @nodoc
@@ -107,25 +113,12 @@ class _$FailureCopyWithImpl<$Res> implements $FailureCopyWith<$Res> {
   final Failure _value;
   // ignore: unused_field
   final $Res Function(Failure) _then;
-
-  @override
-  $Res call({
-    Object? message = freezed,
-  }) {
-    return _then(_value.copyWith(
-      message: message == freezed
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
 }
 
 /// @nodoc
-abstract class _$ServerCopyWith<$Res> implements $FailureCopyWith<$Res> {
+abstract class _$ServerCopyWith<$Res> {
   factory _$ServerCopyWith(_Server value, $Res Function(_Server) then) =
       __$ServerCopyWithImpl<$Res>;
-  @override
   $Res call({String? message});
 }
 
@@ -187,6 +180,7 @@ class _$_Server implements _Server {
     required TResult Function(String? message) server,
     required TResult Function(String? message) local,
     required TResult Function(String? message) any,
+    required TResult Function(List<ValidatorType> failedValidators) validator,
   }) {
     return server(message);
   }
@@ -197,6 +191,7 @@ class _$_Server implements _Server {
     TResult Function(String? message)? server,
     TResult Function(String? message)? local,
     TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
   }) {
     return server?.call(message);
   }
@@ -207,6 +202,7 @@ class _$_Server implements _Server {
     TResult Function(String? message)? server,
     TResult Function(String? message)? local,
     TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -221,6 +217,7 @@ class _$_Server implements _Server {
     required TResult Function(_Server value) server,
     required TResult Function(_Local value) local,
     required TResult Function(_Any value) any,
+    required TResult Function(ValidatorFailure value) validator,
   }) {
     return server(this);
   }
@@ -231,6 +228,7 @@ class _$_Server implements _Server {
     TResult Function(_Server value)? server,
     TResult Function(_Local value)? local,
     TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
   }) {
     return server?.call(this);
   }
@@ -241,6 +239,7 @@ class _$_Server implements _Server {
     TResult Function(_Server value)? server,
     TResult Function(_Local value)? local,
     TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -253,18 +252,15 @@ class _$_Server implements _Server {
 abstract class _Server implements Failure {
   const factory _Server([String? message]) = _$_Server;
 
-  @override
   String? get message;
-  @override
   @JsonKey(ignore: true)
   _$ServerCopyWith<_Server> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$LocalCopyWith<$Res> implements $FailureCopyWith<$Res> {
+abstract class _$LocalCopyWith<$Res> {
   factory _$LocalCopyWith(_Local value, $Res Function(_Local) then) =
       __$LocalCopyWithImpl<$Res>;
-  @override
   $Res call({String? message});
 }
 
@@ -326,6 +322,7 @@ class _$_Local implements _Local {
     required TResult Function(String? message) server,
     required TResult Function(String? message) local,
     required TResult Function(String? message) any,
+    required TResult Function(List<ValidatorType> failedValidators) validator,
   }) {
     return local(message);
   }
@@ -336,6 +333,7 @@ class _$_Local implements _Local {
     TResult Function(String? message)? server,
     TResult Function(String? message)? local,
     TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
   }) {
     return local?.call(message);
   }
@@ -346,6 +344,7 @@ class _$_Local implements _Local {
     TResult Function(String? message)? server,
     TResult Function(String? message)? local,
     TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
     required TResult orElse(),
   }) {
     if (local != null) {
@@ -360,6 +359,7 @@ class _$_Local implements _Local {
     required TResult Function(_Server value) server,
     required TResult Function(_Local value) local,
     required TResult Function(_Any value) any,
+    required TResult Function(ValidatorFailure value) validator,
   }) {
     return local(this);
   }
@@ -370,6 +370,7 @@ class _$_Local implements _Local {
     TResult Function(_Server value)? server,
     TResult Function(_Local value)? local,
     TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
   }) {
     return local?.call(this);
   }
@@ -380,6 +381,7 @@ class _$_Local implements _Local {
     TResult Function(_Server value)? server,
     TResult Function(_Local value)? local,
     TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
     required TResult orElse(),
   }) {
     if (local != null) {
@@ -392,18 +394,15 @@ class _$_Local implements _Local {
 abstract class _Local implements Failure {
   const factory _Local([String? message]) = _$_Local;
 
-  @override
   String? get message;
-  @override
   @JsonKey(ignore: true)
   _$LocalCopyWith<_Local> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$AnyCopyWith<$Res> implements $FailureCopyWith<$Res> {
+abstract class _$AnyCopyWith<$Res> {
   factory _$AnyCopyWith(_Any value, $Res Function(_Any) then) =
       __$AnyCopyWithImpl<$Res>;
-  @override
   $Res call({String? message});
 }
 
@@ -465,6 +464,7 @@ class _$_Any implements _Any {
     required TResult Function(String? message) server,
     required TResult Function(String? message) local,
     required TResult Function(String? message) any,
+    required TResult Function(List<ValidatorType> failedValidators) validator,
   }) {
     return any(message);
   }
@@ -475,6 +475,7 @@ class _$_Any implements _Any {
     TResult Function(String? message)? server,
     TResult Function(String? message)? local,
     TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
   }) {
     return any?.call(message);
   }
@@ -485,6 +486,7 @@ class _$_Any implements _Any {
     TResult Function(String? message)? server,
     TResult Function(String? message)? local,
     TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
     required TResult orElse(),
   }) {
     if (any != null) {
@@ -499,6 +501,7 @@ class _$_Any implements _Any {
     required TResult Function(_Server value) server,
     required TResult Function(_Local value) local,
     required TResult Function(_Any value) any,
+    required TResult Function(ValidatorFailure value) validator,
   }) {
     return any(this);
   }
@@ -509,6 +512,7 @@ class _$_Any implements _Any {
     TResult Function(_Server value)? server,
     TResult Function(_Local value)? local,
     TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
   }) {
     return any?.call(this);
   }
@@ -519,6 +523,7 @@ class _$_Any implements _Any {
     TResult Function(_Server value)? server,
     TResult Function(_Local value)? local,
     TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
     required TResult orElse(),
   }) {
     if (any != null) {
@@ -531,9 +536,154 @@ class _$_Any implements _Any {
 abstract class _Any implements Failure {
   const factory _Any([String? message]) = _$_Any;
 
-  @override
   String? get message;
-  @override
   @JsonKey(ignore: true)
   _$AnyCopyWith<_Any> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ValidatorFailureCopyWith<$Res> {
+  factory $ValidatorFailureCopyWith(
+          ValidatorFailure value, $Res Function(ValidatorFailure) then) =
+      _$ValidatorFailureCopyWithImpl<$Res>;
+  $Res call({List<ValidatorType> failedValidators});
+}
+
+/// @nodoc
+class _$ValidatorFailureCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
+    implements $ValidatorFailureCopyWith<$Res> {
+  _$ValidatorFailureCopyWithImpl(
+      ValidatorFailure _value, $Res Function(ValidatorFailure) _then)
+      : super(_value, (v) => _then(v as ValidatorFailure));
+
+  @override
+  ValidatorFailure get _value => super._value as ValidatorFailure;
+
+  @override
+  $Res call({
+    Object? failedValidators = freezed,
+  }) {
+    return _then(ValidatorFailure(
+      failedValidators == freezed
+          ? _value.failedValidators
+          : failedValidators // ignore: cast_nullable_to_non_nullable
+              as List<ValidatorType>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ValidatorFailure implements ValidatorFailure {
+  const _$ValidatorFailure(this.failedValidators);
+
+  @override
+  final List<ValidatorType> failedValidators;
+
+  @override
+  String toString() {
+    return 'Failure.validator(failedValidators: $failedValidators)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ValidatorFailure &&
+            const DeepCollectionEquality()
+                .equals(other.failedValidators, failedValidators));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValidators));
+
+  @JsonKey(ignore: true)
+  @override
+  $ValidatorFailureCopyWith<ValidatorFailure> get copyWith =>
+      _$ValidatorFailureCopyWithImpl<ValidatorFailure>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? message) server,
+    required TResult Function(String? message) local,
+    required TResult Function(String? message) any,
+    required TResult Function(List<ValidatorType> failedValidators) validator,
+  }) {
+    return validator(failedValidators);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String? message)? server,
+    TResult Function(String? message)? local,
+    TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
+  }) {
+    return validator?.call(failedValidators);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? message)? server,
+    TResult Function(String? message)? local,
+    TResult Function(String? message)? any,
+    TResult Function(List<ValidatorType> failedValidators)? validator,
+    required TResult orElse(),
+  }) {
+    if (validator != null) {
+      return validator(failedValidators);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Server value) server,
+    required TResult Function(_Local value) local,
+    required TResult Function(_Any value) any,
+    required TResult Function(ValidatorFailure value) validator,
+  }) {
+    return validator(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Server value)? server,
+    TResult Function(_Local value)? local,
+    TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
+  }) {
+    return validator?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Server value)? server,
+    TResult Function(_Local value)? local,
+    TResult Function(_Any value)? any,
+    TResult Function(ValidatorFailure value)? validator,
+    required TResult orElse(),
+  }) {
+    if (validator != null) {
+      return validator(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ValidatorFailure implements Failure {
+  const factory ValidatorFailure(List<ValidatorType> failedValidators) =
+      _$ValidatorFailure;
+
+  List<ValidatorType> get failedValidators;
+  @JsonKey(ignore: true)
+  $ValidatorFailureCopyWith<ValidatorFailure> get copyWith =>
+      throw _privateConstructorUsedError;
 }

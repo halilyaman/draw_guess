@@ -12,7 +12,7 @@ class GameService {
 
   String get currentUserId => _auth.currentUser!.uid;
 
-  FailureOr<Unit> createGameRoom(GameRoom gameRoom) async {
+  AsyncFailureOr<Unit> createGameRoom(GameRoom gameRoom) async {
     final result = await safeAsyncCall(() async {
       await _firestore
           .collection(gameRoomsCollection)
@@ -23,7 +23,7 @@ class GameService {
     return result;
   }
 
-  FailureOr<Unit> joinGameRoom(String gameRoomId, Player player) async {
+  AsyncFailureOr<Unit> joinGameRoom(String gameRoomId, Player player) async {
     final result = await safeAsyncCall(() async {
       await _firestore
           .collection(gameRoomsCollection)
@@ -36,7 +36,7 @@ class GameService {
     return result;
   }
 
-  FailureOr<Unit> leaveGameRoom(String gameRoomId, Player player) async {
+  AsyncFailureOr<Unit> leaveGameRoom(String gameRoomId, Player player) async {
     final result = await safeAsyncCall(() async {
       await _firestore
           .collection(gameRoomsCollection)
@@ -49,7 +49,7 @@ class GameService {
     return result;
   }
 
-  FailureOr<Unit> deleteGameRoom(String gameRoomId) async {
+  AsyncFailureOr<Unit> deleteGameRoom(String gameRoomId) async {
     final result = await safeAsyncCall(() async {
       await _firestore
           .collection(gameRoomsCollection)
@@ -60,7 +60,7 @@ class GameService {
     return result;
   }
 
-  FailureOr<GameRoom?> getGameRoom(String gameRoomId) async {
+  AsyncFailureOr<GameRoom?> getGameRoom(String gameRoomId) async {
     final result = safeAsyncCall(() async {
       final snapshot = await _firestore
           .collection(gameRoomsCollection)
