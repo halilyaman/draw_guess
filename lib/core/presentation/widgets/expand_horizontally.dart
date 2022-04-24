@@ -13,7 +13,7 @@ class ExpandHorizontally extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints.expand(height: 40.0),
+      constraints: BoxConstraints.expand(height: height),
       child: child,
     );
   }
