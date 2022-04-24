@@ -17,10 +17,6 @@ import 'package:draw_guess/splash/splash.dart';
       page: SignInPage,
     ),
     AutoRoute(
-      path: '/drawing',
-      page: DrawingBoardPage,
-    ),
-    AutoRoute(
       path: '/home',
       name: 'HomeRouter',
       page: EmptyRouterPage,
@@ -35,6 +31,10 @@ import 'package:draw_guess/splash/splash.dart';
           fullscreenDialog: true,
           barrierDismissible: true,
           opaque: false,
+        ),
+        AutoRoute(
+          path: 'drawing-board',
+          page: DrawingBoardPage,
         ),
       ]
     ),

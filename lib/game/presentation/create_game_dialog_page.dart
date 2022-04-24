@@ -22,7 +22,7 @@ class CreateGameDialogPage extends HookWidget {
                 height: 40.0,
                 child: ElevatedButton(
                   onPressed: () {
-                    AutoRouter.of(context).pop();
+                    AutoRouter.of(context).replace(const DrawingBoardRoute());
                   },
                   child: const Text('Create Game Room'),
                 ),
