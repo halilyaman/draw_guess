@@ -1,4 +1,4 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:draw_guess/core/core.dart';
 import 'package:draw_guess/authentication/authentication.dart';
 import 'package:draw_guess/canvas/canvas.dart';
 import 'package:draw_guess/game/game.dart';

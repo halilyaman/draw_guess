@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:draw_guess/core/core.dart';
+import 'package:draw_guess/core/core2.dart';
 
 class RouterDialogWrapper extends StatelessWidget {
   const RouterDialogWrapper({
