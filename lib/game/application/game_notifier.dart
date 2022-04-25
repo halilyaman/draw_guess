@@ -154,7 +154,7 @@ class GameNotifier extends StateNotifier<GameState> {
     state = const GameState.leaving();
     final fos = await _gameService.deleteGameRoom(gameRoomId);
     if (fos.isRight()) {
-      App.context.navigateBack();
+      App.context.router.navigate(const HomeRoute());
     } else {
       Popup.instance.showErrorPopup('Could not delete the game room!');
     }
@@ -197,7 +197,7 @@ class GameNotifier extends StateNotifier<GameState> {
         state = GameState.failure(l);
       },
       (r) {
-        App.context.navigateBack();
+        App.context.navigateTo(const HomeRoute());
         state = const GameState.initial();
       },
     );
