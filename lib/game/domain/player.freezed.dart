@@ -22,9 +22,10 @@ Player _$PlayerFromJson(Map<String, dynamic> json) {
 class _$PlayerTearOff {
   const _$PlayerTearOff();
 
-  _Player call({required String id}) {
+  _Player call({required String id, required String name}) {
     return _Player(
       id: id,
+      name: name,
     );
   }
 
@@ -39,6 +40,7 @@ const $Player = _$PlayerTearOff();
 /// @nodoc
 mixin _$Player {
   String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +51,7 @@ mixin _$Player {
 abstract class $PlayerCopyWith<$Res> {
   factory $PlayerCopyWith(Player value, $Res Function(Player) then) =
       _$PlayerCopyWithImpl<$Res>;
-  $Res call({String id});
+  $Res call({String id, String name});
 }
 
 /// @nodoc
@@ -63,11 +65,16 @@ class _$PlayerCopyWithImpl<$Res> implements $PlayerCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -78,7 +85,7 @@ abstract class _$PlayerCopyWith<$Res> implements $PlayerCopyWith<$Res> {
   factory _$PlayerCopyWith(_Player value, $Res Function(_Player) then) =
       __$PlayerCopyWithImpl<$Res>;
   @override
-  $Res call({String id});
+  $Res call({String id, String name});
 }
 
 /// @nodoc
@@ -93,11 +100,16 @@ class __$PlayerCopyWithImpl<$Res> extends _$PlayerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? name = freezed,
   }) {
     return _then(_Player(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -106,17 +118,19 @@ class __$PlayerCopyWithImpl<$Res> extends _$PlayerCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Player implements _Player {
-  const _$_Player({required this.id});
+  const _$_Player({required this.id, required this.name});
 
   factory _$_Player.fromJson(Map<String, dynamic> json) =>
       _$$_PlayerFromJson(json);
 
   @override
   final String id;
+  @override
+  final String name;
 
   @override
   String toString() {
-    return 'Player(id: $id)';
+    return 'Player(id: $id, name: $name)';
   }
 
   @override
@@ -124,12 +138,15 @@ class _$_Player implements _Player {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Player &&
-            const DeepCollectionEquality().equals(other.id, id));
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.name, name));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(id));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(name));
 
   @JsonKey(ignore: true)
   @override
@@ -143,12 +160,14 @@ class _$_Player implements _Player {
 }
 
 abstract class _Player implements Player {
-  const factory _Player({required String id}) = _$_Player;
+  const factory _Player({required String id, required String name}) = _$_Player;
 
   factory _Player.fromJson(Map<String, dynamic> json) = _$_Player.fromJson;
 
   @override
   String get id;
+  @override
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$PlayerCopyWith<_Player> get copyWith => throw _privateConstructorUsedError;

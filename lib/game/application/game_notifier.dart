@@ -25,13 +25,26 @@ class GameNotifier extends StateNotifier<GameState> {
       createdAt: DateTime.now(),
       id: id,
     );
-    final fos = await _gameService.createGameRoom(gameRoom);
-    if (fos.isRight()) {
-      App.context.replaceRoute(const DrawingBoardRoute());
-    }
-    state = fos.fold(
-      (l) => GameState.failure(l),
-      (r) => GameState.inGame(gameRoom),
+    final failureOrCreated = await _gameService.createGameRoom(gameRoom);
+    failureOrCreated.fold(
+      (l) => state = GameState.failure(l),
+      (r) async {
+        final player = Player(
+          id: _gameService.currentUserId,
+          name: 'Halil',
+        );
+        final failureOrJoined = await _gameService.joinGameRoom(
+          gameRoom.id,
+          player,
+        );
+        if (failureOrJoined.isRight()) {
+          App.context.replaceRoute(const DrawingBoardRoute());
+        }
+        state = failureOrJoined.fold(
+          (l) => GameState.failure(l),
+          (r) => GameState.inGame(gameRoom),
+        );
+      },
     );
   }
 
