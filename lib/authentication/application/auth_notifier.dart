@@ -20,6 +20,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> signIn() async {
     state = const AuthState.inProgress();
     final failureOrSuccess = await _firebaseAuthenticator.signInWithGoogle();
+    if (failureOrSuccess.isRight()) {
+      await _firebaseAuthenticator.setUserStatus();
+    }
     state = failureOrSuccess.fold(
       (l) => AuthState.failure(l),
       (r) => const AuthState.authenticated(),
@@ -38,6 +41,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   void isSignedIn() {
     final signedIn = _firebaseAuthenticator.isSignedIn();
     if (signedIn) {
+      _firebaseAuthenticator.setUserStatus();
       state = const AuthState.authenticated();
     } else {
       state = const AuthState.unauthenticated();
