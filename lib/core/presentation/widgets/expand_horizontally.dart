@@ -1,7 +1,7 @@
 import 'package:draw_guess/core/core.dart';
 
-class ExpandHorizontally extends StatelessWidget {
-  const ExpandHorizontally({
+class ExpandHorizontal extends StatelessWidget {
+  const ExpandHorizontal({
     Key? key,
     required this.height,
     required this.child,

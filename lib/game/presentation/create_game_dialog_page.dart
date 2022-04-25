@@ -21,7 +21,7 @@ class CreateGameDialogPage extends HookConsumerWidget {
                   hintText: 'Enter Game ID...',
                 ),
                 const EmptyHeight(),
-                ExpandHorizontally(
+                ExpandHorizontal(
                   height: 40.0,
                   child: ElevatedButton(
                     onPressed: () {
