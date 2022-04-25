@@ -36,6 +36,7 @@ class GameNotifier extends StateNotifier<GameState> {
     final gameRoom = GameRoom(
       createdAt: DateTime.now(),
       id: id,
+      adminId: _gameService.currentUserId,
     );
     final failureOrCreated = await _gameService.createGameRoom(gameRoom);
     if (failureOrCreated.isLeft()) {
@@ -145,7 +146,7 @@ class GameNotifier extends StateNotifier<GameState> {
     if (fos.isRight()) {
       App.context.navigateBack();
     } else {
-      Popup.instance.showErrorPopup('Can not delete game room!');
+      Popup.instance.showErrorPopup('Could not delete the game room!');
     }
     state = fos.fold(
       (l) => GameState.failure(l),
@@ -172,5 +173,23 @@ class GameNotifier extends StateNotifier<GameState> {
       (r) => r,
     );
     return exists;
+  }
+
+  Future<void> leaveGameRoom(String gameRoomId, String playerId) async {
+    state = const GameState.leaving();
+    final failureOrLeft = await _gameService.leaveGameRoom(
+      gameRoomId,
+      playerId,
+    );
+    failureOrLeft.fold(
+      (l) {
+        Popup.instance.showErrorPopup('Could not leave the game room');
+        state = GameState.failure(l);
+      },
+      (r) {
+        App.context.navigateBack();
+        state = const GameState.initial();
+      },
+    );
   }
 }

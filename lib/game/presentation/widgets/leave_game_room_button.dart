@@ -14,7 +14,15 @@ class LeaveGameRoomButton extends ConsumerWidget {
         onPressed: () {
           final gameNotifier = ref.read(gameNotifierProvider.notifier);
           gameState.whenOrNull(
-            joined: (gameRoom) => gameNotifier.deleteGameRoom(gameRoom.id),
+            joined: (gameRoom) {
+              final currentUserId =
+                  ref.read(firebaseAuthProvider).currentUser!.uid;
+              if (currentUserId == gameRoom.adminId) {
+                gameNotifier.deleteGameRoom(gameRoom.id);
+              } else {
+                gameNotifier.leaveGameRoom(gameRoom.id, currentUserId);
+              }
+            },
           );
         },
         child: const Text('Leave Game Room'),

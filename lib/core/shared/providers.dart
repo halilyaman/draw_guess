@@ -5,14 +5,14 @@ import 'package:draw_guess/game/game.dart';
 
 final _googleSignInProvider = Provider((ref) => GoogleSignIn());
 
-final _firebaseAuthProvider = Provider((ref) => FirebaseAuth.instance);
+final firebaseAuthProvider = Provider((ref) => FirebaseAuth.instance);
 
 final _firestoreProvider = Provider((ref) => FirebaseFirestore.instance);
 
 final _firebaseAuthenticatorProvider = Provider(
   (ref) => FirebaseAuthenticator(
     ref.watch(_googleSignInProvider),
-    ref.watch(_firebaseAuthProvider),
+    ref.watch(firebaseAuthProvider),
   ),
 );
 
@@ -23,7 +23,7 @@ final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(
 final _gameServiceProvider = Provider(
   (ref) => GameService(
     ref.watch(_firestoreProvider),
-    ref.watch(_firebaseAuthProvider),
+    ref.watch(firebaseAuthProvider),
   ),
 );
 

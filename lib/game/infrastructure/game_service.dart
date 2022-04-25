@@ -36,13 +36,13 @@ class GameService {
     return result;
   }
 
-  AsyncFailureOr<Unit> leaveGameRoom(String gameRoomId, Player player) async {
+  AsyncFailureOr<Unit> leaveGameRoom(String gameRoomId, String playerId) async {
     final result = await safeAsyncCall(() async {
       await _firestore
           .collection(gameRoomsCollection)
           .doc(gameRoomId)
           .collection(playersCollection)
-          .doc(player.id)
+          .doc(playerId)
           .delete();
       return unit;
     });
