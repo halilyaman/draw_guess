@@ -1,5 +1,6 @@
 import 'package:draw_guess/canvas/canvas.dart';
 import 'package:draw_guess/core/core.dart';
+import 'package:draw_guess/game/game.dart';
 
 class DrawingBoardPage extends StatelessWidget {
   const DrawingBoardPage({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class DrawingBoardPage extends StatelessWidget {
         body: Column(
           children: [
             const EmptyHeight(),
-            const _LeaveGameRoomButton(),
+            const LeaveGameRoomButton(),
             Expanded(
               child: Padding(
                 padding: const AppPadding.all() * 5,
@@ -26,29 +27,6 @@ class DrawingBoardPage extends StatelessWidget {
             const EmptyHeight() * 3,
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _LeaveGameRoomButton extends ConsumerWidget {
-  const _LeaveGameRoomButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final gameState = ref.watch(gameNotifierProvider);
-    return gameState.maybeWhen(
-      deleting: () => const LoadingIndicator(),
-      orElse: () => ElevatedButton(
-        onPressed: () {
-          final gameNotifier = ref.read(gameNotifierProvider.notifier);
-          gameState.whenOrNull(
-            inGame: (gameRoom) => gameNotifier.deleteGameRoom(gameRoom.id),
-          );
-        },
-        child: const Text('Leave Game Room'),
       ),
     );
   }

@@ -80,4 +80,8 @@ class Popup {
         .then((value) => completer.complete());
     _context.showBlockDialog(dismissCompleter: completer);
   }
+
+  Future<void> showInfoDialog(String text) async {
+    await _context.showInfoBar(content: Text(text));
+  }
 }

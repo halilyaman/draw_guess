@@ -42,10 +42,18 @@ class AppRouter extends _i7.RootStackRouter {
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.HomePage());
     },
-    CreateGameDialogRoute.name: (routeData) {
-      return _i7.CustomPage<dynamic>(
+    GameRoomIdDialogRoute.name: (routeData) {
+      return _i7.CustomPage<String>(
           routeData: routeData,
-          child: const _i5.CreateGameDialogPage(),
+          child: const _i5.GameRoomIdDialogPage(),
+          fullscreenDialog: true,
+          opaque: false,
+          barrierDismissible: true);
+    },
+    PlayerNameDialogRoute.name: (routeData) {
+      return _i7.CustomPage<String>(
+          routeData: routeData,
+          child: const _i5.PlayerNameDialogPage(),
           fullscreenDialog: true,
           opaque: false,
           barrierDismissible: true);
@@ -53,6 +61,10 @@ class AppRouter extends _i7.RootStackRouter {
     DrawingBoardRoute.name: (routeData) {
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i6.DrawingBoardPage());
+    },
+    GameRoomRoute.name: (routeData) {
+      return _i7.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i5.GameRoomPage());
     }
   };
 
@@ -62,10 +74,14 @@ class AppRouter extends _i7.RootStackRouter {
         _i7.RouteConfig(SignInRoute.name, path: '/sign-in'),
         _i7.RouteConfig(HomeRouter.name, path: '/home', children: [
           _i7.RouteConfig(HomeRoute.name, path: '', parent: HomeRouter.name),
-          _i7.RouteConfig(CreateGameDialogRoute.name,
+          _i7.RouteConfig(GameRoomIdDialogRoute.name,
               path: 'create-game', parent: HomeRouter.name),
+          _i7.RouteConfig(PlayerNameDialogRoute.name,
+              path: 'get-player-name', parent: HomeRouter.name),
           _i7.RouteConfig(DrawingBoardRoute.name,
-              path: 'drawing-board', parent: HomeRouter.name)
+              path: 'drawing-board', parent: HomeRouter.name),
+          _i7.RouteConfig(GameRoomRoute.name,
+              path: 'game-room', parent: HomeRouter.name)
         ])
       ];
 }
@@ -104,12 +120,21 @@ class HomeRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.CreateGameDialogPage]
-class CreateGameDialogRoute extends _i7.PageRouteInfo<void> {
-  const CreateGameDialogRoute()
-      : super(CreateGameDialogRoute.name, path: 'create-game');
+/// [_i5.GameRoomIdDialogPage]
+class GameRoomIdDialogRoute extends _i7.PageRouteInfo<void> {
+  const GameRoomIdDialogRoute()
+      : super(GameRoomIdDialogRoute.name, path: 'create-game');
 
-  static const String name = 'CreateGameDialogRoute';
+  static const String name = 'GameRoomIdDialogRoute';
+}
+
+/// generated route for
+/// [_i5.PlayerNameDialogPage]
+class PlayerNameDialogRoute extends _i7.PageRouteInfo<void> {
+  const PlayerNameDialogRoute()
+      : super(PlayerNameDialogRoute.name, path: 'get-player-name');
+
+  static const String name = 'PlayerNameDialogRoute';
 }
 
 /// generated route for
@@ -119,4 +144,12 @@ class DrawingBoardRoute extends _i7.PageRouteInfo<void> {
       : super(DrawingBoardRoute.name, path: 'drawing-board');
 
   static const String name = 'DrawingBoardRoute';
+}
+
+/// generated route for
+/// [_i5.GameRoomPage]
+class GameRoomRoute extends _i7.PageRouteInfo<void> {
+  const GameRoomRoute() : super(GameRoomRoute.name, path: 'game-room');
+
+  static const String name = 'GameRoomRoute';
 }

@@ -26,14 +26,30 @@ class _$GameStateTearOff {
     return const _Creating();
   }
 
+  _Created created(GameRoom gameRoom) {
+    return _Created(
+      gameRoom,
+    );
+  }
+
+  _Joining joining() {
+    return const _Joining();
+  }
+
+  _Joined joined(GameRoom gameRoom) {
+    return _Joined(
+      gameRoom,
+    );
+  }
+
   _InGame inGame(GameRoom gameRoom) {
     return _InGame(
       gameRoom,
     );
   }
 
-  _Deleting deleting() {
-    return const _Deleting();
+  _Leaving leaving() {
+    return const _Leaving();
   }
 
   _Failure failure(Failure failure) {
@@ -52,8 +68,11 @@ mixin _$GameState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
     required TResult Function(GameRoom gameRoom) inGame,
-    required TResult Function() deleting,
+    required TResult Function() leaving,
     required TResult Function(Failure failure) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -61,8 +80,11 @@ mixin _$GameState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -70,8 +92,11 @@ mixin _$GameState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
     required TResult orElse(),
   }) =>
@@ -80,8 +105,11 @@ mixin _$GameState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
     required TResult Function(_InGame value) inGame,
-    required TResult Function(_Deleting value) deleting,
+    required TResult Function(_Leaving value) leaving,
     required TResult Function(_Failure value) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -89,8 +117,11 @@ mixin _$GameState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -98,8 +129,11 @@ mixin _$GameState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) =>
@@ -161,8 +195,11 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
     required TResult Function(GameRoom gameRoom) inGame,
-    required TResult Function() deleting,
+    required TResult Function() leaving,
     required TResult Function(Failure failure) failure,
   }) {
     return initial();
@@ -173,8 +210,11 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
   }) {
     return initial?.call();
@@ -185,8 +225,11 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
     required TResult orElse(),
   }) {
@@ -201,8 +244,11 @@ class _$_Initial implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
     required TResult Function(_InGame value) inGame,
-    required TResult Function(_Deleting value) deleting,
+    required TResult Function(_Leaving value) leaving,
     required TResult Function(_Failure value) failure,
   }) {
     return initial(this);
@@ -213,8 +259,11 @@ class _$_Initial implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
   }) {
     return initial?.call(this);
@@ -225,8 +274,11 @@ class _$_Initial implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -281,8 +333,11 @@ class _$_Creating implements _Creating {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
     required TResult Function(GameRoom gameRoom) inGame,
-    required TResult Function() deleting,
+    required TResult Function() leaving,
     required TResult Function(Failure failure) failure,
   }) {
     return creating();
@@ -293,8 +348,11 @@ class _$_Creating implements _Creating {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
   }) {
     return creating?.call();
@@ -305,8 +363,11 @@ class _$_Creating implements _Creating {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
     required TResult orElse(),
   }) {
@@ -321,8 +382,11 @@ class _$_Creating implements _Creating {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
     required TResult Function(_InGame value) inGame,
-    required TResult Function(_Deleting value) deleting,
+    required TResult Function(_Leaving value) leaving,
     required TResult Function(_Failure value) failure,
   }) {
     return creating(this);
@@ -333,8 +397,11 @@ class _$_Creating implements _Creating {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
   }) {
     return creating?.call(this);
@@ -345,8 +412,11 @@ class _$_Creating implements _Creating {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -359,6 +429,495 @@ class _$_Creating implements _Creating {
 
 abstract class _Creating implements GameState {
   const factory _Creating() = _$_Creating;
+}
+
+/// @nodoc
+abstract class _$CreatedCopyWith<$Res> {
+  factory _$CreatedCopyWith(_Created value, $Res Function(_Created) then) =
+      __$CreatedCopyWithImpl<$Res>;
+  $Res call({GameRoom gameRoom});
+
+  $GameRoomCopyWith<$Res> get gameRoom;
+}
+
+/// @nodoc
+class __$CreatedCopyWithImpl<$Res> extends _$GameStateCopyWithImpl<$Res>
+    implements _$CreatedCopyWith<$Res> {
+  __$CreatedCopyWithImpl(_Created _value, $Res Function(_Created) _then)
+      : super(_value, (v) => _then(v as _Created));
+
+  @override
+  _Created get _value => super._value as _Created;
+
+  @override
+  $Res call({
+    Object? gameRoom = freezed,
+  }) {
+    return _then(_Created(
+      gameRoom == freezed
+          ? _value.gameRoom
+          : gameRoom // ignore: cast_nullable_to_non_nullable
+              as GameRoom,
+    ));
+  }
+
+  @override
+  $GameRoomCopyWith<$Res> get gameRoom {
+    return $GameRoomCopyWith<$Res>(_value.gameRoom, (value) {
+      return _then(_value.copyWith(gameRoom: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$_Created implements _Created {
+  const _$_Created(this.gameRoom);
+
+  @override
+  final GameRoom gameRoom;
+
+  @override
+  String toString() {
+    return 'GameState.created(gameRoom: $gameRoom)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Created &&
+            const DeepCollectionEquality().equals(other.gameRoom, gameRoom));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(gameRoom));
+
+  @JsonKey(ignore: true)
+  @override
+  _$CreatedCopyWith<_Created> get copyWith =>
+      __$CreatedCopyWithImpl<_Created>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
+    required TResult Function(GameRoom gameRoom) inGame,
+    required TResult Function() leaving,
+    required TResult Function(Failure failure) failure,
+  }) {
+    return created(gameRoom);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
+    TResult Function(GameRoom gameRoom)? inGame,
+    TResult Function()? leaving,
+    TResult Function(Failure failure)? failure,
+  }) {
+    return created?.call(gameRoom);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
+    TResult Function(GameRoom gameRoom)? inGame,
+    TResult Function()? leaving,
+    TResult Function(Failure failure)? failure,
+    required TResult orElse(),
+  }) {
+    if (created != null) {
+      return created(gameRoom);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
+    required TResult Function(_InGame value) inGame,
+    required TResult Function(_Leaving value) leaving,
+    required TResult Function(_Failure value) failure,
+  }) {
+    return created(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
+    TResult Function(_InGame value)? inGame,
+    TResult Function(_Leaving value)? leaving,
+    TResult Function(_Failure value)? failure,
+  }) {
+    return created?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
+    TResult Function(_InGame value)? inGame,
+    TResult Function(_Leaving value)? leaving,
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (created != null) {
+      return created(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Created implements GameState {
+  const factory _Created(GameRoom gameRoom) = _$_Created;
+
+  GameRoom get gameRoom;
+  @JsonKey(ignore: true)
+  _$CreatedCopyWith<_Created> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$JoiningCopyWith<$Res> {
+  factory _$JoiningCopyWith(_Joining value, $Res Function(_Joining) then) =
+      __$JoiningCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$JoiningCopyWithImpl<$Res> extends _$GameStateCopyWithImpl<$Res>
+    implements _$JoiningCopyWith<$Res> {
+  __$JoiningCopyWithImpl(_Joining _value, $Res Function(_Joining) _then)
+      : super(_value, (v) => _then(v as _Joining));
+
+  @override
+  _Joining get _value => super._value as _Joining;
+}
+
+/// @nodoc
+
+class _$_Joining implements _Joining {
+  const _$_Joining();
+
+  @override
+  String toString() {
+    return 'GameState.joining()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _Joining);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
+    required TResult Function(GameRoom gameRoom) inGame,
+    required TResult Function() leaving,
+    required TResult Function(Failure failure) failure,
+  }) {
+    return joining();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
+    TResult Function(GameRoom gameRoom)? inGame,
+    TResult Function()? leaving,
+    TResult Function(Failure failure)? failure,
+  }) {
+    return joining?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
+    TResult Function(GameRoom gameRoom)? inGame,
+    TResult Function()? leaving,
+    TResult Function(Failure failure)? failure,
+    required TResult orElse(),
+  }) {
+    if (joining != null) {
+      return joining();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
+    required TResult Function(_InGame value) inGame,
+    required TResult Function(_Leaving value) leaving,
+    required TResult Function(_Failure value) failure,
+  }) {
+    return joining(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
+    TResult Function(_InGame value)? inGame,
+    TResult Function(_Leaving value)? leaving,
+    TResult Function(_Failure value)? failure,
+  }) {
+    return joining?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
+    TResult Function(_InGame value)? inGame,
+    TResult Function(_Leaving value)? leaving,
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (joining != null) {
+      return joining(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Joining implements GameState {
+  const factory _Joining() = _$_Joining;
+}
+
+/// @nodoc
+abstract class _$JoinedCopyWith<$Res> {
+  factory _$JoinedCopyWith(_Joined value, $Res Function(_Joined) then) =
+      __$JoinedCopyWithImpl<$Res>;
+  $Res call({GameRoom gameRoom});
+
+  $GameRoomCopyWith<$Res> get gameRoom;
+}
+
+/// @nodoc
+class __$JoinedCopyWithImpl<$Res> extends _$GameStateCopyWithImpl<$Res>
+    implements _$JoinedCopyWith<$Res> {
+  __$JoinedCopyWithImpl(_Joined _value, $Res Function(_Joined) _then)
+      : super(_value, (v) => _then(v as _Joined));
+
+  @override
+  _Joined get _value => super._value as _Joined;
+
+  @override
+  $Res call({
+    Object? gameRoom = freezed,
+  }) {
+    return _then(_Joined(
+      gameRoom == freezed
+          ? _value.gameRoom
+          : gameRoom // ignore: cast_nullable_to_non_nullable
+              as GameRoom,
+    ));
+  }
+
+  @override
+  $GameRoomCopyWith<$Res> get gameRoom {
+    return $GameRoomCopyWith<$Res>(_value.gameRoom, (value) {
+      return _then(_value.copyWith(gameRoom: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$_Joined implements _Joined {
+  const _$_Joined(this.gameRoom);
+
+  @override
+  final GameRoom gameRoom;
+
+  @override
+  String toString() {
+    return 'GameState.joined(gameRoom: $gameRoom)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Joined &&
+            const DeepCollectionEquality().equals(other.gameRoom, gameRoom));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(gameRoom));
+
+  @JsonKey(ignore: true)
+  @override
+  _$JoinedCopyWith<_Joined> get copyWith =>
+      __$JoinedCopyWithImpl<_Joined>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
+    required TResult Function(GameRoom gameRoom) inGame,
+    required TResult Function() leaving,
+    required TResult Function(Failure failure) failure,
+  }) {
+    return joined(gameRoom);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
+    TResult Function(GameRoom gameRoom)? inGame,
+    TResult Function()? leaving,
+    TResult Function(Failure failure)? failure,
+  }) {
+    return joined?.call(gameRoom);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
+    TResult Function(GameRoom gameRoom)? inGame,
+    TResult Function()? leaving,
+    TResult Function(Failure failure)? failure,
+    required TResult orElse(),
+  }) {
+    if (joined != null) {
+      return joined(gameRoom);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
+    required TResult Function(_InGame value) inGame,
+    required TResult Function(_Leaving value) leaving,
+    required TResult Function(_Failure value) failure,
+  }) {
+    return joined(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
+    TResult Function(_InGame value)? inGame,
+    TResult Function(_Leaving value)? leaving,
+    TResult Function(_Failure value)? failure,
+  }) {
+    return joined?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
+    TResult Function(_InGame value)? inGame,
+    TResult Function(_Leaving value)? leaving,
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (joined != null) {
+      return joined(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Joined implements GameState {
+  const factory _Joined(GameRoom gameRoom) = _$_Joined;
+
+  GameRoom get gameRoom;
+  @JsonKey(ignore: true)
+  _$JoinedCopyWith<_Joined> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -434,8 +993,11 @@ class _$_InGame implements _InGame {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
     required TResult Function(GameRoom gameRoom) inGame,
-    required TResult Function() deleting,
+    required TResult Function() leaving,
     required TResult Function(Failure failure) failure,
   }) {
     return inGame(gameRoom);
@@ -446,8 +1008,11 @@ class _$_InGame implements _InGame {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
   }) {
     return inGame?.call(gameRoom);
@@ -458,8 +1023,11 @@ class _$_InGame implements _InGame {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
     required TResult orElse(),
   }) {
@@ -474,8 +1042,11 @@ class _$_InGame implements _InGame {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
     required TResult Function(_InGame value) inGame,
-    required TResult Function(_Deleting value) deleting,
+    required TResult Function(_Leaving value) leaving,
     required TResult Function(_Failure value) failure,
   }) {
     return inGame(this);
@@ -486,8 +1057,11 @@ class _$_InGame implements _InGame {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
   }) {
     return inGame?.call(this);
@@ -498,8 +1072,11 @@ class _$_InGame implements _InGame {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -519,35 +1096,35 @@ abstract class _InGame implements GameState {
 }
 
 /// @nodoc
-abstract class _$DeletingCopyWith<$Res> {
-  factory _$DeletingCopyWith(_Deleting value, $Res Function(_Deleting) then) =
-      __$DeletingCopyWithImpl<$Res>;
+abstract class _$LeavingCopyWith<$Res> {
+  factory _$LeavingCopyWith(_Leaving value, $Res Function(_Leaving) then) =
+      __$LeavingCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$DeletingCopyWithImpl<$Res> extends _$GameStateCopyWithImpl<$Res>
-    implements _$DeletingCopyWith<$Res> {
-  __$DeletingCopyWithImpl(_Deleting _value, $Res Function(_Deleting) _then)
-      : super(_value, (v) => _then(v as _Deleting));
+class __$LeavingCopyWithImpl<$Res> extends _$GameStateCopyWithImpl<$Res>
+    implements _$LeavingCopyWith<$Res> {
+  __$LeavingCopyWithImpl(_Leaving _value, $Res Function(_Leaving) _then)
+      : super(_value, (v) => _then(v as _Leaving));
 
   @override
-  _Deleting get _value => super._value as _Deleting;
+  _Leaving get _value => super._value as _Leaving;
 }
 
 /// @nodoc
 
-class _$_Deleting implements _Deleting {
-  const _$_Deleting();
+class _$_Leaving implements _Leaving {
+  const _$_Leaving();
 
   @override
   String toString() {
-    return 'GameState.deleting()';
+    return 'GameState.leaving()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Deleting);
+        (other.runtimeType == runtimeType && other is _Leaving);
   }
 
   @override
@@ -558,11 +1135,14 @@ class _$_Deleting implements _Deleting {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
     required TResult Function(GameRoom gameRoom) inGame,
-    required TResult Function() deleting,
+    required TResult Function() leaving,
     required TResult Function(Failure failure) failure,
   }) {
-    return deleting();
+    return leaving();
   }
 
   @override
@@ -570,11 +1150,14 @@ class _$_Deleting implements _Deleting {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
   }) {
-    return deleting?.call();
+    return leaving?.call();
   }
 
   @override
@@ -582,13 +1165,16 @@ class _$_Deleting implements _Deleting {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
     required TResult orElse(),
   }) {
-    if (deleting != null) {
-      return deleting();
+    if (leaving != null) {
+      return leaving();
     }
     return orElse();
   }
@@ -598,11 +1184,14 @@ class _$_Deleting implements _Deleting {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
     required TResult Function(_InGame value) inGame,
-    required TResult Function(_Deleting value) deleting,
+    required TResult Function(_Leaving value) leaving,
     required TResult Function(_Failure value) failure,
   }) {
-    return deleting(this);
+    return leaving(this);
   }
 
   @override
@@ -610,11 +1199,14 @@ class _$_Deleting implements _Deleting {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
   }) {
-    return deleting?.call(this);
+    return leaving?.call(this);
   }
 
   @override
@@ -622,20 +1214,23 @@ class _$_Deleting implements _Deleting {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
-    if (deleting != null) {
-      return deleting(this);
+    if (leaving != null) {
+      return leaving(this);
     }
     return orElse();
   }
 }
 
-abstract class _Deleting implements GameState {
-  const factory _Deleting() = _$_Deleting;
+abstract class _Leaving implements GameState {
+  const factory _Leaving() = _$_Leaving;
 }
 
 /// @nodoc
@@ -711,8 +1306,11 @@ class _$_Failure implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() creating,
+    required TResult Function(GameRoom gameRoom) created,
+    required TResult Function() joining,
+    required TResult Function(GameRoom gameRoom) joined,
     required TResult Function(GameRoom gameRoom) inGame,
-    required TResult Function() deleting,
+    required TResult Function() leaving,
     required TResult Function(Failure failure) failure,
   }) {
     return failure(this.failure);
@@ -723,8 +1321,11 @@ class _$_Failure implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
   }) {
     return failure?.call(this.failure);
@@ -735,8 +1336,11 @@ class _$_Failure implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? creating,
+    TResult Function(GameRoom gameRoom)? created,
+    TResult Function()? joining,
+    TResult Function(GameRoom gameRoom)? joined,
     TResult Function(GameRoom gameRoom)? inGame,
-    TResult Function()? deleting,
+    TResult Function()? leaving,
     TResult Function(Failure failure)? failure,
     required TResult orElse(),
   }) {
@@ -751,8 +1355,11 @@ class _$_Failure implements _Failure {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joining value) joining,
+    required TResult Function(_Joined value) joined,
     required TResult Function(_InGame value) inGame,
-    required TResult Function(_Deleting value) deleting,
+    required TResult Function(_Leaving value) leaving,
     required TResult Function(_Failure value) failure,
   }) {
     return failure(this);
@@ -763,8 +1370,11 @@ class _$_Failure implements _Failure {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
   }) {
     return failure?.call(this);
@@ -775,8 +1385,11 @@ class _$_Failure implements _Failure {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joining value)? joining,
+    TResult Function(_Joined value)? joined,
     TResult Function(_InGame value)? inGame,
-    TResult Function(_Deleting value)? deleting,
+    TResult Function(_Leaving value)? leaving,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {

@@ -25,9 +25,16 @@ import 'package:draw_guess/splash/splash.dart';
           path: '',
           page: HomePage,
         ),
-        CustomRoute(
+        CustomRoute<String>(
           path: 'create-game',
-          page: CreateGameDialogPage,
+          page: GameRoomIdDialogPage,
+          fullscreenDialog: true,
+          barrierDismissible: true,
+          opaque: false,
+        ),
+        CustomRoute<String>(
+          path: 'get-player-name',
+          page: PlayerNameDialogPage,
           fullscreenDialog: true,
           barrierDismissible: true,
           opaque: false,
@@ -35,6 +42,10 @@ import 'package:draw_guess/splash/splash.dart';
         AutoRoute(
           path: 'drawing-board',
           page: DrawingBoardPage,
+        ),
+        AutoRoute(
+          path: 'game-room',
+          page: GameRoomPage,
         ),
       ]
     ),
