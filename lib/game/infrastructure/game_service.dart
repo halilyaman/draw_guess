@@ -101,4 +101,19 @@ class GameService {
     });
     return result;
   }
+
+  Stream<Player?> getPlayerStream(String gameRoomId, String playerId) {
+    return _firestore
+        .collection(gameRoomsCollection)
+        .doc(gameRoomId)
+        .collection('players')
+        .doc(playerId)
+        .snapshots()
+        .map((e) {
+      if (e.exists) {
+        return Player.fromJson(e.data()!);
+      }
+      return null;
+    });
+  }
 }

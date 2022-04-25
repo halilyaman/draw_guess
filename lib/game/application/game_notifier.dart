@@ -19,6 +19,7 @@ class GameNotifier extends StateNotifier<GameState> {
   GameNotifier(this._gameService) : super(const GameState.initial());
 
   final GameService _gameService;
+  StreamSubscription? _gameRoomSub;
 
   Future<void> createGameRoom(String id) async {
     state = const GameState.creating();
@@ -91,6 +92,15 @@ class GameNotifier extends StateNotifier<GameState> {
           (l) => state = const GameState.failure(Failure.server()),
           (gameRoom) {
             if (gameRoom != null) {
+              _gameRoomSub = _gameService
+                  .getPlayerStream(gameRoomId, player.id)
+                  .listen((gameRoom) async {
+                if (gameRoom == null) {
+                  Popup.instance.showInfoDialog('You are removed from the game room.');
+                  await leaveGameRoom(gameRoomId, _gameService.currentUserId);
+                  await _gameRoomSub?.cancel();
+                }
+              });
               App.context.navigateTo(const GameRoomRoute());
               state = GameState.joined(gameRoom);
             } else {
