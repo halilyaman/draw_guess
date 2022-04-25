@@ -27,7 +27,7 @@ class PlayerNameDialogPage extends HookConsumerWidget {
                         .validatePlayerName(nicknameController.text);
                     if (!validated) {
                       Popup.instance
-                          .showErrorPopup('Please enter a valid game ID!');
+                          .showErrorPopup('Please enter a valid player name!');
                       return;
                     }
                     AutoRouter.of(context).pop(nicknameController.text);

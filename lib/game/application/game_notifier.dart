@@ -22,6 +22,17 @@ class GameNotifier extends StateNotifier<GameState> {
 
   Future<void> createGameRoom(String id) async {
     state = const GameState.creating();
+    final exists = await _gameRoomExists(id);
+    if (exists == null) {
+      Popup.instance.showErrorPopup('Error! Check your internet connection.');
+      state = const GameState.initial();
+      return;
+    }
+    if (exists == true) {
+      Popup.instance.showErrorPopup('This Game ID is not available!');
+      state = const GameState.initial();
+      return;
+    }
     final gameRoom = GameRoom(
       createdAt: DateTime.now(),
       id: id,
@@ -36,11 +47,22 @@ class GameNotifier extends StateNotifier<GameState> {
     );
   }
 
-  Future<void> joinGameRoom(GameRoom gameRoom, String name) async {
+  Future<void> joinGameRoom(GameRoom gameRoom, String playerName) async {
     state = const GameState.joining();
+    final exists = await _playerNameExists(gameRoom.id, playerName);
+    if (exists == null) {
+      Popup.instance.showErrorPopup('Error! Check your internet connection.');
+      state = const GameState.initial();
+      return;
+    }
+    if (exists == true) {
+      Popup.instance.showErrorPopup('This player name is not available!');
+      state = const GameState.initial();
+      return;
+    }
     final player = Player(
       id: _gameService.currentUserId,
-      name: name,
+      name: playerName,
     );
     final failureOrJoined = await _gameService.joinGameRoom(
       gameRoom.id,
@@ -107,5 +129,26 @@ class GameNotifier extends StateNotifier<GameState> {
       (l) => GameState.failure(l),
       (r) => const GameState.initial(),
     );
+  }
+
+  Future<bool?> _gameRoomExists(String gameRoomId) async {
+    final failureOrExists = await _gameService.gameRoomExists(gameRoomId);
+    final exists = failureOrExists.fold(
+      (l) => null,
+      (r) => r,
+    );
+    return exists;
+  }
+
+  Future<bool?> _playerNameExists(String gameRoomId, String playerName) async {
+    final failureOrExists = await _gameService.playerNameExists(
+      gameRoomId,
+      playerName,
+    );
+    final exists = failureOrExists.fold(
+      (l) => null,
+      (r) => r,
+    );
+    return exists;
   }
 }

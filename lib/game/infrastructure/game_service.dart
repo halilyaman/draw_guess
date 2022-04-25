@@ -76,4 +76,29 @@ class GameService {
     });
     return result;
   }
+
+  AsyncFailureOr<bool> gameRoomExists(String gameRoomId) async {
+    final result = safeAsyncCall(() async {
+      final gameRoomDoc = _firestore
+          .collection(gameRoomsCollection)
+          .doc(gameRoomId);
+      final docSnapshot = await gameRoomDoc.get();
+      return docSnapshot.exists;
+    });
+    return result;
+  }
+
+  AsyncFailureOr<bool> playerNameExists(
+      String gameRoomId, String playerName) async {
+    final result = safeAsyncCall(() async {
+      final playersSnapshot = await _firestore
+          .collection(gameRoomsCollection)
+          .doc(gameRoomId)
+          .collection(playersCollection)
+          .where('name', isEqualTo: playerName)
+          .get();
+      return playersSnapshot.docs.isNotEmpty;
+    });
+    return result;
+  }
 }
