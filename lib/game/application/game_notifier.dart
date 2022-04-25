@@ -47,9 +47,9 @@ class GameNotifier extends StateNotifier<GameState> {
     );
   }
 
-  Future<void> joinGameRoom(GameRoom gameRoom, String playerName) async {
+  Future<void> joinGameRoom(String gameRoomId, String playerName) async {
     state = const GameState.joining();
-    final exists = await _playerNameExists(gameRoom.id, playerName);
+    final exists = await _playerNameExists(gameRoomId, playerName);
     if (exists == null) {
       Popup.instance.showErrorPopup('Error! Check your internet connection.');
       state = const GameState.initial();
@@ -60,22 +60,44 @@ class GameNotifier extends StateNotifier<GameState> {
       state = const GameState.initial();
       return;
     }
+    final gameRoomExists = await _gameRoomExists(gameRoomId);
+    if (gameRoomExists == null) {
+      Popup.instance.showErrorPopup('Error! Check your internet connection.');
+      state = const GameState.initial();
+      return;
+    }
+    if (gameRoomExists == false) {
+      Popup.instance.showErrorPopup('No game room exists with this ID!');
+      state = const GameState.initial();
+      return;
+    }
     final player = Player(
       id: _gameService.currentUserId,
       name: playerName,
     );
     final failureOrJoined = await _gameService.joinGameRoom(
-      gameRoom.id,
+      gameRoomId,
       player,
     );
-    if (failureOrJoined.isRight()) {
-      App.context.navigateTo(const GameRoomRoute());
-    } else {
-      Popup.instance.showErrorPopup('Could not join to the game room!');
-    }
-    state = failureOrJoined.fold(
-      (l) => GameState.failure(l),
-      (r) => GameState.joined(gameRoom),
+    failureOrJoined.fold(
+      (l) {
+        Popup.instance.showErrorPopup('Could not join to the game room!');
+        state = GameState.failure(l);
+      },
+      (r) async {
+        final failureOrGameRoom = await _gameService.getGameRoom(gameRoomId);
+        failureOrGameRoom.fold(
+          (l) => state = const GameState.failure(Failure.server()),
+          (gameRoom) {
+            if (gameRoom != null) {
+              App.context.navigateTo(const GameRoomRoute());
+              state = GameState.joined(gameRoom);
+            } else {
+              state = const GameState.failure(Failure.server());
+            }
+          },
+        );
+      },
     );
   }
 
