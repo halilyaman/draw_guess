@@ -51,10 +51,14 @@ class GameService {
 
   AsyncFailureOr<Unit> deleteGameRoom(String gameRoomId) async {
     final result = await safeAsyncCall(() async {
-      await _firestore
+      final gameRoomDoc = _firestore
           .collection(gameRoomsCollection)
-          .doc(gameRoomId)
-          .delete();
+          .doc(gameRoomId);
+      final playersSnapshot = await gameRoomDoc.collection(playersCollection).get();
+      for (final playerDoc in playersSnapshot.docs) {
+        playerDoc.reference.delete();
+      }
+      await gameRoomDoc.delete();
       return unit;
     });
     return result;
