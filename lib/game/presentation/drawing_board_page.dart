@@ -3,7 +3,12 @@ import 'package:draw_guess/core/core.dart';
 import 'package:draw_guess/game/game.dart';
 
 class DrawingBoardPage extends StatelessWidget {
-  const DrawingBoardPage({Key? key}) : super(key: key);
+  const DrawingBoardPage({
+    Key? key,
+    @pathParam required this.gameRoomId,
+  }) : super(key: key);
+
+  final String gameRoomId;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +18,7 @@ class DrawingBoardPage extends StatelessWidget {
         body: Column(
           children: [
             const EmptyHeight(),
-            const LeaveGameRoomButton(),
+            EndGameButton(gameRoomId: gameRoomId,),
             Expanded(
               child: Padding(
                 padding: const AppPadding.all() * 5,

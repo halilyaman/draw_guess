@@ -19,7 +19,6 @@ class GameNotifier extends StateNotifier<GameState> {
   GameNotifier(this._gameService) : super(const GameState.initial());
 
   final GameService _gameService;
-  StreamSubscription? _gameRoomSub;
 
   Future<void> createGameRoom(String id) async {
     state = const GameState.creating();
@@ -38,6 +37,7 @@ class GameNotifier extends StateNotifier<GameState> {
       createdAt: DateTime.now(),
       id: id,
       adminId: _gameService.currentUserId,
+      inGame: false,
     );
     final failureOrCreated = await _gameService.createGameRoom(gameRoom);
     if (failureOrCreated.isLeft()) {
@@ -92,16 +92,17 @@ class GameNotifier extends StateNotifier<GameState> {
           (l) => state = const GameState.failure(Failure.server()),
           (gameRoom) {
             if (gameRoom != null) {
-              _gameRoomSub = _gameService
+              StreamSubscription? playerSub;
+              playerSub = _gameService
                   .playerStream(gameRoomId, player.name)
                   .listen((player) async {
                 if (player == null) {
                   Popup.instance.showInfoDialog('You are removed from the game room.');
                   await leaveGameRoom(gameRoomId, playerName);
-                  await _gameRoomSub?.cancel();
+                  await playerSub?.cancel();
                 }
               });
-              App.context.navigateTo(GameRoomRoute(gameRoomId: gameRoomId));
+              App.context.navigateTo(GameRoute(gameRoomId: gameRoomId));
               state = GameState.joined(gameRoom);
             } else {
               state = const GameState.failure(Failure.server());
@@ -190,7 +191,9 @@ class GameNotifier extends StateNotifier<GameState> {
     String playerName, {
     bool willNavigateToHome = true,
   }) async {
-    state = const GameState.leaving();
+    if (willNavigateToHome) {
+      state = const GameState.leaving();
+    }
     final failureOrLeft = await _gameService.leaveGameRoom(
       gameRoomId,
       playerName,
@@ -203,9 +206,28 @@ class GameNotifier extends StateNotifier<GameState> {
       (r) {
         if (willNavigateToHome) {
           App.context.navigateTo(const HomeRoute());
+          state = const GameState.initial();
         }
-        state = const GameState.initial();
       },
+    );
+  }
+
+  Future<void> startGame(GameRoom gameRoom) async {
+    final failureOrStarted = await _gameService.startGame(gameRoom);
+    if (failureOrStarted.isLeft()) {
+      Popup.instance.showErrorPopup('Can not start the game!');
+    }
+    state = failureOrStarted.fold(
+      (l) => GameState.failure(l),
+      (r) => GameState.inGame(gameRoom),
+    );
+  }
+
+  Future<void> endGame(GameRoom gameRoom) async {
+    final failureOrEnded = await _gameService.endGame(gameRoom);
+    state = failureOrEnded.fold(
+      (l) => GameState.failure(l),
+      (r) => GameState.joined(gameRoom),
     );
   }
 }
@@ -216,10 +238,8 @@ final playersStreamProvider =
   return gameService.playersInGameRoomStream(gameRoomId);
 });
 
-final gameRoomProvider = FutureProvider.autoDispose
-    .family<GameRoom?, String>((ref, gameRoomId) async {
+final gameRoomStreamProvider = StreamProvider.autoDispose
+    .family<GameRoom?, String>((ref, gameRoomId) {
   final gameService = ref.watch(gameServiceProvider);
-  final failureOrGameRoom = await gameService.getGameRoom(gameRoomId);
-  final gameRoom = failureOrGameRoom.fold((l) => null, (r) => r);
-  return gameRoom;
+  return gameService.gameRoomStream(gameRoomId);
 });

@@ -25,11 +25,13 @@ class _$GameRoomTearOff {
   _GameRoom call(
       {required String id,
       required DateTime createdAt,
-      required String adminId}) {
+      required String adminId,
+      required bool inGame}) {
     return _GameRoom(
       id: id,
       createdAt: createdAt,
       adminId: adminId,
+      inGame: inGame,
     );
   }
 
@@ -46,6 +48,7 @@ mixin _$GameRoom {
   String get id => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get adminId => throw _privateConstructorUsedError;
+  bool get inGame => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,7 +60,7 @@ mixin _$GameRoom {
 abstract class $GameRoomCopyWith<$Res> {
   factory $GameRoomCopyWith(GameRoom value, $Res Function(GameRoom) then) =
       _$GameRoomCopyWithImpl<$Res>;
-  $Res call({String id, DateTime createdAt, String adminId});
+  $Res call({String id, DateTime createdAt, String adminId, bool inGame});
 }
 
 /// @nodoc
@@ -73,6 +76,7 @@ class _$GameRoomCopyWithImpl<$Res> implements $GameRoomCopyWith<$Res> {
     Object? id = freezed,
     Object? createdAt = freezed,
     Object? adminId = freezed,
+    Object? inGame = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -87,6 +91,10 @@ class _$GameRoomCopyWithImpl<$Res> implements $GameRoomCopyWith<$Res> {
           ? _value.adminId
           : adminId // ignore: cast_nullable_to_non_nullable
               as String,
+      inGame: inGame == freezed
+          ? _value.inGame
+          : inGame // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -96,7 +104,7 @@ abstract class _$GameRoomCopyWith<$Res> implements $GameRoomCopyWith<$Res> {
   factory _$GameRoomCopyWith(_GameRoom value, $Res Function(_GameRoom) then) =
       __$GameRoomCopyWithImpl<$Res>;
   @override
-  $Res call({String id, DateTime createdAt, String adminId});
+  $Res call({String id, DateTime createdAt, String adminId, bool inGame});
 }
 
 /// @nodoc
@@ -113,6 +121,7 @@ class __$GameRoomCopyWithImpl<$Res> extends _$GameRoomCopyWithImpl<$Res>
     Object? id = freezed,
     Object? createdAt = freezed,
     Object? adminId = freezed,
+    Object? inGame = freezed,
   }) {
     return _then(_GameRoom(
       id: id == freezed
@@ -127,6 +136,10 @@ class __$GameRoomCopyWithImpl<$Res> extends _$GameRoomCopyWithImpl<$Res>
           ? _value.adminId
           : adminId // ignore: cast_nullable_to_non_nullable
               as String,
+      inGame: inGame == freezed
+          ? _value.inGame
+          : inGame // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -135,7 +148,10 @@ class __$GameRoomCopyWithImpl<$Res> extends _$GameRoomCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_GameRoom implements _GameRoom {
   const _$_GameRoom(
-      {required this.id, required this.createdAt, required this.adminId});
+      {required this.id,
+      required this.createdAt,
+      required this.adminId,
+      required this.inGame});
 
   factory _$_GameRoom.fromJson(Map<String, dynamic> json) =>
       _$$_GameRoomFromJson(json);
@@ -146,10 +162,12 @@ class _$_GameRoom implements _GameRoom {
   final DateTime createdAt;
   @override
   final String adminId;
+  @override
+  final bool inGame;
 
   @override
   String toString() {
-    return 'GameRoom(id: $id, createdAt: $createdAt, adminId: $adminId)';
+    return 'GameRoom(id: $id, createdAt: $createdAt, adminId: $adminId, inGame: $inGame)';
   }
 
   @override
@@ -159,7 +177,8 @@ class _$_GameRoom implements _GameRoom {
             other is _GameRoom &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
-            const DeepCollectionEquality().equals(other.adminId, adminId));
+            const DeepCollectionEquality().equals(other.adminId, adminId) &&
+            const DeepCollectionEquality().equals(other.inGame, inGame));
   }
 
   @override
@@ -167,7 +186,8 @@ class _$_GameRoom implements _GameRoom {
       runtimeType,
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(createdAt),
-      const DeepCollectionEquality().hash(adminId));
+      const DeepCollectionEquality().hash(adminId),
+      const DeepCollectionEquality().hash(inGame));
 
   @JsonKey(ignore: true)
   @override
@@ -184,7 +204,8 @@ abstract class _GameRoom implements GameRoom {
   const factory _GameRoom(
       {required String id,
       required DateTime createdAt,
-      required String adminId}) = _$_GameRoom;
+      required String adminId,
+      required bool inGame}) = _$_GameRoom;
 
   factory _GameRoom.fromJson(Map<String, dynamic> json) = _$_GameRoom.fromJson;
 
@@ -194,6 +215,8 @@ abstract class _GameRoom implements GameRoom {
   DateTime get createdAt;
   @override
   String get adminId;
+  @override
+  bool get inGame;
   @override
   @JsonKey(ignore: true)
   _$GameRoomCopyWith<_GameRoom> get copyWith =>

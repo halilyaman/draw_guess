@@ -22,6 +22,10 @@ class GameService {
       _database
           .ref('$gameRoomsCollection/$id');
 
+  DatabaseReference playersRef(String gameRoomId) =>
+      _database
+          .ref('$playersCollection/$gameRoomId');
+
   AsyncFailureOr<Unit> createGameRoom(GameRoom gameRoom) async {
     final result = await safeAsyncCall(() async {
       final ref = gameRoomRef(gameRoom.id);
@@ -34,8 +38,7 @@ class GameService {
 
   AsyncFailureOr<Unit> joinGameRoom(String gameRoomId, Player player) async {
     final result = await safeAsyncCall(() async {
-      final ref = gameRoomRef(gameRoomId)
-          .child('$playersCollection/${player.name}');
+      final ref = playersRef(gameRoomId).child(player.name);
       await ref.set(player.toJson());
       ref.onDisconnect().set(null);
       return unit;
@@ -45,9 +48,7 @@ class GameService {
 
   AsyncFailureOr<Unit> leaveGameRoom(String gameRoomId, String playerName) async {
     final result = await safeAsyncCall(() async {
-      await gameRoomRef(gameRoomId)
-          .child('$playersCollection/$playerName')
-          .set(null);
+      await playersRef(gameRoomId).child(playerName).set(null);
       return unit;
     });
     return result;
@@ -56,6 +57,7 @@ class GameService {
   AsyncFailureOr<Unit> deleteGameRoom(String gameRoomId) async {
     final result = await safeAsyncCall(() async {
       await gameRoomRef(gameRoomId).set(null);
+      await playersRef(gameRoomId).set(null);
       return unit;
     });
     return result;
@@ -83,17 +85,15 @@ class GameService {
   AsyncFailureOr<bool> playerNameExists(
       String gameRoomId, String playerName) async {
     final result = safeAsyncCall(() async {
-      final snapshot = await gameRoomRef(gameRoomId)
-          .child('$playersCollection/$playerName')
-          .get();
+      final snapshot = await playersRef(gameRoomId).child(playerName).get();
       return snapshot.exists;
     });
     return result;
   }
 
   Stream<Player?> playerStream(String gameRoomId, String playerName) {
-    return gameRoomRef(gameRoomId)
-        .child('$playersCollection/$playerName')
+    return playersRef(gameRoomId)
+        .child(playerName)
         .onValue
         .map((event) {
       if (!event.snapshot.exists) {
@@ -105,8 +105,7 @@ class GameService {
   }
 
   Stream<List<Player>> playersInGameRoomStream(String gameRoomId) {
-    return gameRoomRef(gameRoomId)
-        .child(playersCollection)
+    return playersRef(gameRoomId)
         .onValue
         .map((event) {
       if (event.snapshot.value == null) {
@@ -117,5 +116,31 @@ class GameService {
           .map((e) => Player.fromJson((playersMap[e] as Map).cast()))
           .toList();
     });
+  }
+
+  Stream<GameRoom?> gameRoomStream(String gameRoomId) {
+    return gameRoomRef(gameRoomId).onValue.map((event) {
+      if (!event.snapshot.exists) {
+        return null;
+      }
+      final data = event.snapshot.value as Map;
+      return GameRoom.fromJson(data.cast());
+    });
+  }
+
+  AsyncFailureOr<Unit> startGame(GameRoom gameRoom) async {
+    final result = safeAsyncCall(() async {
+      gameRoomRef(gameRoom.id).set(gameRoom.copyWith(inGame: true).toJson());
+      return unit;
+    });
+    return result;
+  }
+
+  AsyncFailureOr<Unit> endGame(GameRoom gameRoom) async {
+    final result = safeAsyncCall(() async {
+      gameRoomRef(gameRoom.id).set(gameRoom.copyWith(inGame: false).toJson());
+      return unit;
+    });
+    return result;
   }
 }

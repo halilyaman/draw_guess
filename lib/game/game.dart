@@ -8,3 +8,7 @@ export 'package:draw_guess/game/presentation/game_room_page.dart';
 export 'package:draw_guess/game/presentation/player_name_dialog_page.dart';
 export 'package:draw_guess/game/presentation/widgets/leave_game_room_button.dart';
 export 'package:draw_guess/game/presentation/widgets/create_game_button.dart';
+export 'package:draw_guess/game/presentation/drawing_board_page.dart';
+export 'package:draw_guess/game/presentation/game_page.dart';
+export 'package:draw_guess/game/presentation/widgets/start_game_button.dart';
+export 'package:draw_guess/game/presentation/widgets/end_game_button.dart';

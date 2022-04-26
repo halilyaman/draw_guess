@@ -1,6 +1,5 @@
 import 'package:draw_guess/core/core.dart';
 import 'package:draw_guess/authentication/authentication.dart';
-import 'package:draw_guess/canvas/canvas.dart';
 import 'package:draw_guess/game/game.dart';
 import 'package:draw_guess/home/home.dart';
 import 'package:draw_guess/splash/splash.dart';
@@ -40,12 +39,18 @@ import 'package:draw_guess/splash/splash.dart';
           opaque: false,
         ),
         AutoRoute(
-          path: 'drawing-board',
-          page: DrawingBoardPage,
-        ),
-        AutoRoute(
-          path: 'game-room/:gameRoomId',
-          page: GameRoomPage,
+          path: 'game/:gameRoomId',
+          page: GamePage,
+          children: [
+            AutoRoute(
+              path: 'drawing-board/:gameRoomId',
+              page: DrawingBoardPage,
+            ),
+            AutoRoute(
+              path: 'game-room/:gameRoomId',
+              page: GameRoomPage,
+            ),
+          ],
         ),
       ]
     ),

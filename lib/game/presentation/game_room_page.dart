@@ -13,8 +13,12 @@ class GameRoomPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final gameRoom = useState<GameRoom?>(null);
     ref
-        .watch(gameRoomProvider(gameRoomId))
+        .watch(gameRoomStreamProvider(gameRoomId))
         .whenData((value) => gameRoom.value = value);
+    final adminId = gameRoom.value?.adminId;
+    final currentUserId =
+        ref.watch(firebaseAuthProvider).currentUser!.uid;
+    final isCurrentUserAdmin = adminId == currentUserId;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -27,49 +31,56 @@ class GameRoomPage extends HookConsumerWidget {
         ),
         body: ref.watch(playersStreamProvider(gameRoomId)).when(
               data: (players) {
-                return ListView.builder(
-                  itemCount: players.length,
-                  itemBuilder: (context, index) {
-                    final player = players[index];
-                    final adminId = gameRoom.value?.adminId;
-                    final currentUserId =
-                        ref.watch(firebaseAuthProvider).currentUser!.uid;
-                    final isAdmin = player.id == adminId;
-                    return ListTile(
-                      title: Text(player.name),
-                      trailing: isAdmin
-                          ? Text(
-                              'Admin',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                    color: AppColors.green,
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: players.length,
+                        itemBuilder: (context, index) {
+                          final player = players[index];
+                          final isAdmin = player.id == adminId;
+                          return ListTile(
+                            title: Text(player.name),
+                            trailing: isAdmin
+                                ? Text(
+                                    'Admin',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                          color: AppColors.green,
+                                        ),
+                                  )
+                                : Visibility(
+                                    visible: isCurrentUserAdmin,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        ref
+                                            .read(gameNotifierProvider.notifier)
+                                            .leaveGameRoom(
+                                              gameRoomId,
+                                              player.name,
+                                              willNavigateToHome: false,
+                                            );
+                                      },
+                                      icon: const Icon(
+                                        MdiIcons.accountRemove,
+                                        color: AppColors.red,
+                                      ),
+                                    ),
                                   ),
-                            )
-                          : Visibility(
-                              visible: currentUserId == adminId,
-                              child: IconButton(
-                                onPressed: () {
-                                  ref
-                                      .read(gameNotifierProvider.notifier)
-                                      .leaveGameRoom(
-                                        gameRoomId,
-                                        player.name,
-                                        willNavigateToHome: false,
-                                      );
-                                },
-                                icon: const Icon(
-                                  MdiIcons.accountRemove,
-                                  color: AppColors.red,
-                                ),
-                              ),
-                            ),
-                    );
-                  },
+                          );
+                        },
+                      ),
+                    ),
+                    StartGameButton(
+                      isCurrentUserAdmin: isCurrentUserAdmin,
+                      gameRoom: gameRoom.value,
+                    )
+                  ],
                 );
               },
-              error: (e, st) {print(e); print(st); return const CustomErrorMessage();},
+              error: (e, st) => const CustomErrorMessage(),
               loading: () => const LoadingIndicator(),
             ),
       ),

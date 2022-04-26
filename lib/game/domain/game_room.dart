@@ -9,6 +9,7 @@ class GameRoom with _$GameRoom {
     required String id,
     required DateTime createdAt,
     required String adminId,
+    required bool inGame,
   }) = _GameRoom;
 
   factory GameRoom.fromJson(Map<String, dynamic> json) =>
