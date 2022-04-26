@@ -24,13 +24,14 @@ final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(
   (ref) => AuthNotifier(ref.watch(_firebaseAuthenticatorProvider)),
 );
 
-final _gameServiceProvider = Provider(
+final gameServiceProvider = Provider(
   (ref) => GameService(
     ref.watch(_firestoreProvider),
     ref.watch(firebaseAuthProvider),
+    ref.watch(_databaseProvider),
   ),
 );
 
 final gameNotifierProvider = StateNotifierProvider<GameNotifier, GameState>(
-  (ref) => GameNotifier(ref.watch(_gameServiceProvider)),
+  (ref) => GameNotifier(ref.watch(gameServiceProvider)),
 );

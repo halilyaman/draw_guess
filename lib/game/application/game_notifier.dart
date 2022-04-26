@@ -93,15 +93,15 @@ class GameNotifier extends StateNotifier<GameState> {
           (gameRoom) {
             if (gameRoom != null) {
               _gameRoomSub = _gameService
-                  .getPlayerStream(gameRoomId, player.id)
-                  .listen((gameRoom) async {
-                if (gameRoom == null) {
+                  .playerStream(gameRoomId, player.name)
+                  .listen((player) async {
+                if (player == null) {
                   Popup.instance.showInfoDialog('You are removed from the game room.');
-                  await leaveGameRoom(gameRoomId, _gameService.currentUserId);
+                  await leaveGameRoom(gameRoomId, playerName);
                   await _gameRoomSub?.cancel();
                 }
               });
-              App.context.navigateTo(const GameRoomRoute());
+              App.context.navigateTo(GameRoomRoute(gameRoomId: gameRoomId));
               state = GameState.joined(gameRoom);
             } else {
               state = const GameState.failure(Failure.server());
@@ -185,11 +185,15 @@ class GameNotifier extends StateNotifier<GameState> {
     return exists;
   }
 
-  Future<void> leaveGameRoom(String gameRoomId, String playerId) async {
+  Future<void> leaveGameRoom(
+    String gameRoomId,
+    String playerName, {
+    bool willNavigateToHome = true,
+  }) async {
     state = const GameState.leaving();
     final failureOrLeft = await _gameService.leaveGameRoom(
       gameRoomId,
-      playerId,
+      playerName,
     );
     failureOrLeft.fold(
       (l) {
@@ -197,9 +201,25 @@ class GameNotifier extends StateNotifier<GameState> {
         state = GameState.failure(l);
       },
       (r) {
-        App.context.navigateTo(const HomeRoute());
+        if (willNavigateToHome) {
+          App.context.navigateTo(const HomeRoute());
+        }
         state = const GameState.initial();
       },
     );
   }
 }
+
+final playersStreamProvider =
+    StreamProvider.autoDispose.family<List<Player>, String>((ref, gameRoomId) {
+  final gameService = ref.watch(gameServiceProvider);
+  return gameService.playersInGameRoomStream(gameRoomId);
+});
+
+final gameRoomProvider = FutureProvider.autoDispose
+    .family<GameRoom?, String>((ref, gameRoomId) async {
+  final gameService = ref.watch(gameServiceProvider);
+  final failureOrGameRoom = await gameService.getGameRoom(gameRoomId);
+  final gameRoom = failureOrGameRoom.fold((l) => null, (r) => r);
+  return gameRoom;
+});

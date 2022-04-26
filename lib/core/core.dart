@@ -38,3 +38,4 @@ export 'package:draw_guess/core/presentation/widgets/loading_indicator.dart';
 export 'package:draw_guess/core/presentation/widgets/upload_task_popup.dart';
 export 'package:draw_guess/core/presentation/widgets/expand_horizontally.dart';
 export 'package:draw_guess/core/presentation/widgets/router_dialog_wrapper.dart';
+export 'package:draw_guess/core/presentation/widgets/custom_error_message.dart';

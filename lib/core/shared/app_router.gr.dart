@@ -63,8 +63,13 @@ class AppRouter extends _i7.RootStackRouter {
           routeData: routeData, child: const _i6.DrawingBoardPage());
     },
     GameRoomRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<GameRoomRouteArgs>(
+          orElse: () => GameRoomRouteArgs(
+              gameRoomId: pathParams.getString('gameRoomId')));
       return _i7.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.GameRoomPage());
+          routeData: routeData,
+          child: _i5.GameRoomPage(key: args.key, gameRoomId: args.gameRoomId));
     }
   };
 
@@ -81,7 +86,7 @@ class AppRouter extends _i7.RootStackRouter {
           _i7.RouteConfig(DrawingBoardRoute.name,
               path: 'drawing-board', parent: HomeRouter.name),
           _i7.RouteConfig(GameRoomRoute.name,
-              path: 'game-room', parent: HomeRouter.name)
+              path: 'game-room/:gameRoomId', parent: HomeRouter.name)
         ])
       ];
 }
@@ -148,8 +153,25 @@ class DrawingBoardRoute extends _i7.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.GameRoomPage]
-class GameRoomRoute extends _i7.PageRouteInfo<void> {
-  const GameRoomRoute() : super(GameRoomRoute.name, path: 'game-room');
+class GameRoomRoute extends _i7.PageRouteInfo<GameRoomRouteArgs> {
+  GameRoomRoute({_i3.Key? key, required String gameRoomId})
+      : super(GameRoomRoute.name,
+            path: 'game-room/:gameRoomId',
+            args: GameRoomRouteArgs(key: key, gameRoomId: gameRoomId),
+            rawPathParams: {'gameRoomId': gameRoomId});
 
   static const String name = 'GameRoomRoute';
+}
+
+class GameRoomRouteArgs {
+  const GameRoomRouteArgs({this.key, required this.gameRoomId});
+
+  final _i3.Key? key;
+
+  final String gameRoomId;
+
+  @override
+  String toString() {
+    return 'GameRoomRouteArgs{key: $key, gameRoomId: $gameRoomId}';
+  }
 }

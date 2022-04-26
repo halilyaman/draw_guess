@@ -1,10 +1,16 @@
 import 'package:draw_guess/core/core.dart';
+import 'package:draw_guess/core/core2.dart';
 import 'package:draw_guess/game/game.dart';
 
 class GameService {
-  GameService(this._firestore, this._auth);
+  const GameService(
+    this._firestore,
+    this._auth,
+    this._database,
+  );
 
   final FirebaseFirestore _firestore;
+  final FirebaseDatabase _database;
   final FirebaseAuth _auth;
 
   static const gameRoomsCollection = 'gameRooms';
@@ -12,12 +18,13 @@ class GameService {
 
   String get currentUserId => _auth.currentUser!.uid;
 
+  DatabaseReference gameRoomRef(String id) =>
+      _database
+          .ref('$gameRoomsCollection/$id');
+
   AsyncFailureOr<Unit> createGameRoom(GameRoom gameRoom) async {
     final result = await safeAsyncCall(() async {
-      await _firestore
-          .collection(gameRoomsCollection)
-          .doc(gameRoom.id)
-          .set(gameRoom.toJson());
+      await gameRoomRef(gameRoom.id).set(gameRoom.toJson());
       return unit;
     });
     return result;
@@ -25,25 +32,19 @@ class GameService {
 
   AsyncFailureOr<Unit> joinGameRoom(String gameRoomId, Player player) async {
     final result = await safeAsyncCall(() async {
-      await _firestore
-          .collection(gameRoomsCollection)
-          .doc(gameRoomId)
-          .collection(playersCollection)
-          .doc(player.id)
+      await gameRoomRef(gameRoomId)
+          .child('$playersCollection/${player.name}')
           .set(player.toJson());
       return unit;
     });
     return result;
   }
 
-  AsyncFailureOr<Unit> leaveGameRoom(String gameRoomId, String playerId) async {
+  AsyncFailureOr<Unit> leaveGameRoom(String gameRoomId, String playerName) async {
     final result = await safeAsyncCall(() async {
-      await _firestore
-          .collection(gameRoomsCollection)
-          .doc(gameRoomId)
-          .collection(playersCollection)
-          .doc(playerId)
-          .delete();
+      await gameRoomRef(gameRoomId)
+          .child('$playersCollection/$playerName')
+          .set(null);
       return unit;
     });
     return result;
@@ -51,14 +52,7 @@ class GameService {
 
   AsyncFailureOr<Unit> deleteGameRoom(String gameRoomId) async {
     final result = await safeAsyncCall(() async {
-      final gameRoomDoc = _firestore
-          .collection(gameRoomsCollection)
-          .doc(gameRoomId);
-      final playersSnapshot = await gameRoomDoc.collection(playersCollection).get();
-      for (final playerDoc in playersSnapshot.docs) {
-        playerDoc.reference.delete();
-      }
-      await gameRoomDoc.delete();
+      await gameRoomRef(gameRoomId).set(null);
       return unit;
     });
     return result;
@@ -66,12 +60,10 @@ class GameService {
 
   AsyncFailureOr<GameRoom?> getGameRoom(String gameRoomId) async {
     final result = safeAsyncCall(() async {
-      final snapshot = await _firestore
-          .collection(gameRoomsCollection)
-          .doc(gameRoomId)
-          .get();
+      final snapshot = await gameRoomRef(gameRoomId).get();
       if (snapshot.exists) {
-        return GameRoom.fromJson(snapshot.data()!);
+        final data = snapshot.value as Map;
+        return GameRoom.fromJson(data.cast());
       }
     });
     return result;
@@ -79,10 +71,7 @@ class GameService {
 
   AsyncFailureOr<bool> gameRoomExists(String gameRoomId) async {
     final result = safeAsyncCall(() async {
-      final gameRoomDoc = _firestore
-          .collection(gameRoomsCollection)
-          .doc(gameRoomId);
-      final docSnapshot = await gameRoomDoc.get();
+      final docSnapshot = await gameRoomRef(gameRoomId).get();
       return docSnapshot.exists;
     });
     return result;
@@ -91,43 +80,39 @@ class GameService {
   AsyncFailureOr<bool> playerNameExists(
       String gameRoomId, String playerName) async {
     final result = safeAsyncCall(() async {
-      final playersSnapshot = await _firestore
-          .collection(gameRoomsCollection)
-          .doc(gameRoomId)
-          .collection(playersCollection)
-          .where('name', isEqualTo: playerName)
+      final snapshot = await gameRoomRef(gameRoomId)
+          .child('$playersCollection/$playerName')
           .get();
-      return playersSnapshot.docs.isNotEmpty;
+      return snapshot.exists;
     });
     return result;
   }
 
-  Stream<Player?> getPlayerStream(String gameRoomId, String playerId) {
-    return _firestore
-        .collection(gameRoomsCollection)
-        .doc(gameRoomId)
-        .collection(playersCollection)
-        .doc(playerId)
-        .snapshots()
-        .map((e) {
-      if (e.exists) {
-        return Player.fromJson(e.data()!);
+  Stream<Player?> playerStream(String gameRoomId, String playerName) {
+    return gameRoomRef(gameRoomId)
+        .child('$playersCollection/$playerName')
+        .onValue
+        .map((event) {
+      if (!event.snapshot.exists) {
+        return null;
       }
-      return null;
+      final data = event.snapshot.value as Map;
+      return Player.fromJson(data.cast());
     });
   }
 
-  StreamSubscription<List<Player>> listenPlayersInGameRoom(
-    String gameRoomId, {
-    required void Function(List<Player>) onChanged,
-  }) {
-    return _firestore
-        .collection(gameRoomsCollection)
-        .doc(gameRoomId)
-        .collection(playersCollection)
-        .snapshots()
-        .map((e) {
-      return e.docs.map((e) => Player.fromJson(e.data())).toList();
-    }).listen(onChanged);
+  Stream<List<Player>> playersInGameRoomStream(String gameRoomId) {
+    return gameRoomRef(gameRoomId)
+        .child(playersCollection)
+        .onValue
+        .map((event) {
+      if (event.snapshot.value == null) {
+        return [];
+      }
+      final playersMap = event.snapshot.value as Map;
+      return playersMap.keys
+          .map((e) => Player.fromJson((playersMap[e] as Map).cast()))
+          .toList();
+    });
   }
 }

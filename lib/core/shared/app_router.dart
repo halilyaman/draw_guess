@@ -44,7 +44,7 @@ import 'package:draw_guess/splash/splash.dart';
           page: DrawingBoardPage,
         ),
         AutoRoute(
-          path: 'game-room',
+          path: 'game-room/:gameRoomId',
           page: GameRoomPage,
         ),
       ]

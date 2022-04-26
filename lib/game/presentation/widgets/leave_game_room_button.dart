@@ -1,4 +1,5 @@
 import 'package:draw_guess/core/core.dart';
+import 'package:draw_guess/game/game.dart';
 
 class LeaveGameRoomButton extends ConsumerWidget {
   const LeaveGameRoomButton({
@@ -17,11 +18,14 @@ class LeaveGameRoomButton extends ConsumerWidget {
             joined: (gameRoom) {
               final currentUserId =
                   ref.read(firebaseAuthProvider).currentUser!.uid;
-              if (currentUserId == gameRoom.adminId) {
-                gameNotifier.deleteGameRoom(gameRoom.id);
-              } else {
-                gameNotifier.leaveGameRoom(gameRoom.id, currentUserId);
-              }
+              ref.read(playersStreamProvider(gameRoom.id)).whenData((players) {
+                if (currentUserId == gameRoom.adminId) {
+                  gameNotifier.deleteGameRoom(gameRoom.id);
+                } else {
+                  final me = players.firstWhere((e) => e.id == currentUserId);
+                  gameNotifier.leaveGameRoom(gameRoom.id, me.name);
+                }
+              });
             },
           );
         },
