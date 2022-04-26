@@ -106,7 +106,7 @@ class GameService {
     return _firestore
         .collection(gameRoomsCollection)
         .doc(gameRoomId)
-        .collection('players')
+        .collection(playersCollection)
         .doc(playerId)
         .snapshots()
         .map((e) {
@@ -115,5 +115,19 @@ class GameService {
       }
       return null;
     });
+  }
+
+  StreamSubscription<List<Player>> listenPlayersInGameRoom(
+    String gameRoomId, {
+    required void Function(List<Player>) onChanged,
+  }) {
+    return _firestore
+        .collection(gameRoomsCollection)
+        .doc(gameRoomId)
+        .collection(playersCollection)
+        .snapshots()
+        .map((e) {
+      return e.docs.map((e) => Player.fromJson(e.data())).toList();
+    }).listen(onChanged);
   }
 }

@@ -10,7 +10,7 @@ class LeaveGameRoomButton extends ConsumerWidget {
     final gameState = ref.watch(gameNotifierProvider);
     return gameState.maybeWhen(
       leaving: () => const LoadingIndicator(),
-      orElse: () => ElevatedButton(
+      orElse: () => IconButton(
         onPressed: () {
           final gameNotifier = ref.read(gameNotifierProvider.notifier);
           gameState.whenOrNull(
@@ -25,7 +25,7 @@ class LeaveGameRoomButton extends ConsumerWidget {
             },
           );
         },
-        child: const Text('Leave Game Room'),
+        icon: const Icon(MdiIcons.exitRun),
       ),
     );
   }

@@ -10,13 +10,16 @@ class GameRoomPage extends StatelessWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Game Room'),
           automaticallyImplyLeading: false,
+          title: const Text('Game Room'),
+          actions: const [
+            LeaveGameRoomButton(),
+          ],
         ),
         body: Center(
           child: Column(
             children: const [
-              LeaveGameRoomButton(),
+
             ],
           ),
         ),
