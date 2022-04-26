@@ -24,7 +24,9 @@ class GameService {
 
   AsyncFailureOr<Unit> createGameRoom(GameRoom gameRoom) async {
     final result = await safeAsyncCall(() async {
-      await gameRoomRef(gameRoom.id).set(gameRoom.toJson());
+      final ref = gameRoomRef(gameRoom.id);
+      await ref.set(gameRoom.toJson());
+      ref.onDisconnect().set(null);
       return unit;
     });
     return result;
@@ -32,9 +34,10 @@ class GameService {
 
   AsyncFailureOr<Unit> joinGameRoom(String gameRoomId, Player player) async {
     final result = await safeAsyncCall(() async {
-      await gameRoomRef(gameRoomId)
-          .child('$playersCollection/${player.name}')
-          .set(player.toJson());
+      final ref = gameRoomRef(gameRoomId)
+          .child('$playersCollection/${player.name}');
+      await ref.set(player.toJson());
+      ref.onDisconnect().set(null);
       return unit;
     });
     return result;
