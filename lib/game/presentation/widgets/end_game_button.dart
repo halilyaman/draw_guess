@@ -1,5 +1,5 @@
 import 'package:draw_guess/core/core.dart';
-import 'package:draw_guess/game/game.dart';
+import 'package:draw_guess/game/shared/hooks.dart';
 
 class EndGameButton extends HookConsumerWidget {
   const EndGameButton({
@@ -11,14 +11,11 @@ class EndGameButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameRoom = useState<GameRoom?>(null);
-    ref
-        .watch(gameRoomStreamProvider(gameRoomId))
-        .whenData((value) => gameRoom.value = value);
+    final gameRoom = useGameRoom(gameRoomId, ref);
     return OutlinedButton(
       onPressed: () {
-        if (gameRoom.value != null) {
-          ref.read(gameNotifierProvider.notifier).endGame(gameRoom.value!);
+        if (gameRoom != null) {
+          ref.read(gameNotifierProvider.notifier).endGame(gameRoom);
         }
       },
       child: const Text('End Game'),

@@ -1,5 +1,5 @@
 import 'package:draw_guess/core/core.dart';
-import 'package:draw_guess/game/game.dart';
+import 'package:draw_guess/game/shared/hooks.dart';
 
 class GamePage extends HookConsumerWidget {
   const GamePage({
@@ -11,12 +11,9 @@ class GamePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameRoom = useState<GameRoom?>(null);
-    ref
-        .watch(gameRoomStreamProvider(gameRoomId))
-        .whenData((value) => gameRoom.value = value);
+    final gameRoom = useGameRoom(gameRoomId, ref);
     return AutoRouter.declarative(routes: (_) => [
-      if (gameRoom.value?.inGame == true)
+      if (gameRoom?.inGame == true)
         DrawingBoardRoute(gameRoomId: gameRoomId)
       else
         GameRoomRoute(gameRoomId: gameRoomId),

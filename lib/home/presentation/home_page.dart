@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              JoinGameWidget(),
+              JoinGameRoomWidget(),
               EmptyHeight(),
               CreateGameButton(),
               EmptyHeight(),

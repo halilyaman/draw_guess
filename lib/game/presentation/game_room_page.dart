@@ -1,5 +1,6 @@
 import 'package:draw_guess/core/core.dart';
 import 'package:draw_guess/game/game.dart';
+import 'package:draw_guess/game/shared/hooks.dart';
 
 class GameRoomPage extends HookConsumerWidget {
   const GameRoomPage({
@@ -11,11 +12,8 @@ class GameRoomPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameRoom = useState<GameRoom?>(null);
-    ref
-        .watch(gameRoomStreamProvider(gameRoomId))
-        .whenData((value) => gameRoom.value = value);
-    final adminId = gameRoom.value?.adminId;
+    final gameRoom = useGameRoom(gameRoomId, ref);
+    final adminId = gameRoom?.adminId;
     final currentUserId =
         ref.watch(firebaseAuthProvider).currentUser!.uid;
     final isCurrentUserAdmin = adminId == currentUserId;
@@ -74,9 +72,8 @@ class GameRoomPage extends HookConsumerWidget {
                       ),
                     ),
                     StartGameButton(
-                      isCurrentUserAdmin: isCurrentUserAdmin,
-                      gameRoom: gameRoom.value,
-                    )
+                      gameRoom: gameRoom,
+                    ),
                   ],
                 );
               },

@@ -1,8 +1,8 @@
 import 'package:draw_guess/core/core.dart';
 import 'package:draw_guess/game/game.dart';
 
-class JoinGameWidget extends HookConsumerWidget {
-  const JoinGameWidget({
+class JoinGameRoomWidget extends HookConsumerWidget {
+  const JoinGameRoomWidget({
     Key? key,
   }) : super(key: key);
 

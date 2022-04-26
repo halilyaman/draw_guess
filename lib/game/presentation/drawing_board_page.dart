@@ -18,7 +18,9 @@ class DrawingBoardPage extends StatelessWidget {
         body: Column(
           children: [
             const EmptyHeight(),
-            EndGameButton(gameRoomId: gameRoomId,),
+            EndGameButton(
+              gameRoomId: gameRoomId,
+            ),
             Expanded(
               child: Padding(
                 padding: const AppPadding.all() * 5,
