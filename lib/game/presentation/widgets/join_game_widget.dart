@@ -24,6 +24,10 @@ class JoinGameWidget extends HookConsumerWidget {
           creating: () => null,
           joining: () => null,
           orElse: () => () async {
+            if (gameIdController.text.isEmpty) {
+              Popup.instance.showErrorPopup('Game ID can not be empty!');
+              return;
+            }
             final playerName = await AutoRouter.of(context)
                 .push<String>(const PlayerNameDialogRoute());
             if (playerName == null) return;
