@@ -22,10 +22,16 @@ Line _$LineFromJson(Map<String, dynamic> json) {
 class _$LineTearOff {
   const _$LineTearOff();
 
-  _Line call({required List<Point> points, required int color}) {
+  _Line call(
+      {required List<Point> points,
+      required int color,
+      required DateTime createdAt,
+      required String drawerId}) {
     return _Line(
       points: points,
       color: color,
+      createdAt: createdAt,
+      drawerId: drawerId,
     );
   }
 
@@ -42,6 +48,8 @@ mixin _$Line {
   List<Point> get points =>
       throw _privateConstructorUsedError; // value of a color. Ex: Colors.green.value
   int get color => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  String get drawerId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,7 +60,8 @@ mixin _$Line {
 abstract class $LineCopyWith<$Res> {
   factory $LineCopyWith(Line value, $Res Function(Line) then) =
       _$LineCopyWithImpl<$Res>;
-  $Res call({List<Point> points, int color});
+  $Res call(
+      {List<Point> points, int color, DateTime createdAt, String drawerId});
 }
 
 /// @nodoc
@@ -67,6 +76,8 @@ class _$LineCopyWithImpl<$Res> implements $LineCopyWith<$Res> {
   $Res call({
     Object? points = freezed,
     Object? color = freezed,
+    Object? createdAt = freezed,
+    Object? drawerId = freezed,
   }) {
     return _then(_value.copyWith(
       points: points == freezed
@@ -77,6 +88,14 @@ class _$LineCopyWithImpl<$Res> implements $LineCopyWith<$Res> {
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      drawerId: drawerId == freezed
+          ? _value.drawerId
+          : drawerId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -86,7 +105,8 @@ abstract class _$LineCopyWith<$Res> implements $LineCopyWith<$Res> {
   factory _$LineCopyWith(_Line value, $Res Function(_Line) then) =
       __$LineCopyWithImpl<$Res>;
   @override
-  $Res call({List<Point> points, int color});
+  $Res call(
+      {List<Point> points, int color, DateTime createdAt, String drawerId});
 }
 
 /// @nodoc
@@ -102,6 +122,8 @@ class __$LineCopyWithImpl<$Res> extends _$LineCopyWithImpl<$Res>
   $Res call({
     Object? points = freezed,
     Object? color = freezed,
+    Object? createdAt = freezed,
+    Object? drawerId = freezed,
   }) {
     return _then(_Line(
       points: points == freezed
@@ -112,6 +134,14 @@ class __$LineCopyWithImpl<$Res> extends _$LineCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      drawerId: drawerId == freezed
+          ? _value.drawerId
+          : drawerId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -119,8 +149,13 @@ class __$LineCopyWithImpl<$Res> extends _$LineCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_Line implements _Line {
-  const _$_Line({required this.points, required this.color});
+class _$_Line extends _Line {
+  const _$_Line(
+      {required this.points,
+      required this.color,
+      required this.createdAt,
+      required this.drawerId})
+      : super._();
 
   factory _$_Line.fromJson(Map<String, dynamic> json) => _$$_LineFromJson(json);
 
@@ -128,26 +163,10 @@ class _$_Line implements _Line {
   final List<Point> points;
   @override // value of a color. Ex: Colors.green.value
   final int color;
-
   @override
-  String toString() {
-    return 'Line(points: $points, color: $color)';
-  }
-
+  final DateTime createdAt;
   @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _Line &&
-            const DeepCollectionEquality().equals(other.points, points) &&
-            const DeepCollectionEquality().equals(other.color, color));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(points),
-      const DeepCollectionEquality().hash(color));
+  final String drawerId;
 
   @JsonKey(ignore: true)
   @override
@@ -160,9 +179,13 @@ class _$_Line implements _Line {
   }
 }
 
-abstract class _Line implements Line {
-  const factory _Line({required List<Point> points, required int color}) =
-      _$_Line;
+abstract class _Line extends Line {
+  const factory _Line(
+      {required List<Point> points,
+      required int color,
+      required DateTime createdAt,
+      required String drawerId}) = _$_Line;
+  const _Line._() : super._();
 
   factory _Line.fromJson(Map<String, dynamic> json) = _$_Line.fromJson;
 
@@ -170,6 +193,10 @@ abstract class _Line implements Line {
   List<Point> get points;
   @override // value of a color. Ex: Colors.green.value
   int get color;
+  @override
+  DateTime get createdAt;
+  @override
+  String get drawerId;
   @override
   @JsonKey(ignore: true)
   _$LineCopyWith<_Line> get copyWith => throw _privateConstructorUsedError;

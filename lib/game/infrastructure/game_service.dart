@@ -1,30 +1,30 @@
+import 'package:draw_guess/canvas/canvas.dart';
 import 'package:draw_guess/core/core.dart';
 import 'package:draw_guess/core/core2.dart';
 import 'package:draw_guess/game/game.dart';
 
 class GameService {
   const GameService(
-    this._firestore,
     this._auth,
     this._database,
   );
 
-  final FirebaseFirestore _firestore;
   final FirebaseDatabase _database;
   final FirebaseAuth _auth;
 
-  static const gameRoomsCollection = 'gameRooms';
-  static const playersCollection = 'players';
+  static const gameRoomsPath = 'gameRooms';
+  static const playersPath = 'players';
+  static const canvasPath = 'canvas';
 
   String get currentUserId => _auth.currentUser!.uid;
 
   DatabaseReference gameRoomRef(String id) =>
       _database
-          .ref('$gameRoomsCollection/$id');
+          .ref('$gameRoomsPath/$id');
 
   DatabaseReference playersRef(String gameRoomId) =>
       _database
-          .ref('$playersCollection/$gameRoomId');
+          .ref('$playersPath/$gameRoomId');
 
   AsyncFailureOr<Unit> createGameRoom(GameRoom gameRoom) async {
     final result = await safeAsyncCall(() async {
@@ -142,5 +142,55 @@ class GameService {
       return unit;
     });
     return result;
+  }
+
+  AsyncFailureOr<Unit> updateCanvas(String gameRoomId, Line line) async {
+    final result = safeAsyncCall(() async {
+      final ref = _database.ref(
+          '$canvasPath/$gameRoomId/${line.createdAt.millisecondsSinceEpoch}');
+      ref.onDisconnect().set(null);
+      await ref.update(line.toJson());
+      return unit;
+    });
+    return result;
+  }
+
+  AsyncFailureOr<Unit> clearCanvas(String gameRoomId) async {
+    final result = safeAsyncCall(() async {
+      final ref = _database.ref('$canvasPath/$gameRoomId');
+      await ref.set(null);
+      return unit;
+    });
+    return result;
+  }
+
+  AsyncFailureOr<Unit> deleteLine(String gameRoomId, Line line) async {
+    final result = safeAsyncCall(() async {
+      final ref = _database.ref(
+          '$canvasPath/$gameRoomId/${line.createdAt.millisecondsSinceEpoch}');
+      await ref.set(null);
+      return unit;
+    });
+    return result;
+  }
+
+  Stream<List<Line>> canvasStream(String gameRoomId) {
+    return _database
+        .ref('$canvasPath/$gameRoomId')
+        .onValue
+        .map((event) => event.snapshot.value == null
+            ? []
+            : (event.snapshot.value as Map).keys.map((e) {
+                final value = (event.snapshot.value as Map)[e];
+                return Line.fromJson(jsonDecode(jsonEncode(value)));
+              }).toList());
+  }
+
+  Stream<Line> canvasRemovedLinesStream(String gameRoomId) {
+    return _database.ref('$canvasPath/$gameRoomId').onChildRemoved.map((event) {
+      final data = event.snapshot.value;
+      final line = Line.fromJson(jsonDecode(jsonEncode(data as Map)));
+      return line;
+    });
   }
 }

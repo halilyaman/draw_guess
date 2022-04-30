@@ -1,3 +1,4 @@
+import 'package:draw_guess/canvas/canvas.dart';
 import 'package:draw_guess/core/core.dart';
 import 'package:draw_guess/game/game.dart';
 
@@ -16,9 +17,13 @@ class GameState with _$GameState {
 }
 
 class GameNotifier extends StateNotifier<GameState> {
-  GameNotifier(this._gameService) : super(const GameState.initial());
+  GameNotifier(
+    this._gameService,
+    this.read,
+  ) : super(const GameState.initial());
 
   final GameService _gameService;
+  final Reader read;
 
   Future<void> createGameRoom(String id) async {
     state = const GameState.creating();
@@ -42,6 +47,8 @@ class GameNotifier extends StateNotifier<GameState> {
     final failureOrCreated = await _gameService.createGameRoom(gameRoom);
     if (failureOrCreated.isLeft()) {
       Popup.instance.showErrorPopup('Could not create a game room!');
+    } else {
+      read(gameRoomIdProvider.notifier).state = id;
     }
     state = failureOrCreated.fold(
       (l) => GameState.failure(l),
@@ -76,6 +83,7 @@ class GameNotifier extends StateNotifier<GameState> {
     final player = Player(
       id: _gameService.currentUserId,
       name: playerName,
+      canDraw: false,
     );
     final failureOrJoined = await _gameService.joinGameRoom(
       gameRoomId,
@@ -102,6 +110,7 @@ class GameNotifier extends StateNotifier<GameState> {
                   await playerSub?.cancel();
                 }
               });
+              read(gameRoomIdProvider.notifier).state = gameRoomId;
               App.context.navigateTo(GameRoute(gameRoomId: gameRoomId));
               state = GameState.joined(gameRoom);
             } else {
@@ -225,10 +234,25 @@ class GameNotifier extends StateNotifier<GameState> {
 
   Future<void> endGame(GameRoom gameRoom) async {
     final failureOrEnded = await _gameService.endGame(gameRoom);
+    if (failureOrEnded.isRight()) {
+      await clearCanvas(gameRoom.id);
+    }
     state = failureOrEnded.fold(
       (l) => GameState.failure(l),
       (r) => GameState.joined(gameRoom),
     );
+  }
+
+  Future<void> updateCanvas(String gameRoomId, Line line) async {
+    await _gameService.updateCanvas(gameRoomId, line);
+  }
+
+  Future<void> clearCanvas(String gameRoomId) async {
+    await _gameService.clearCanvas(gameRoomId);
+  }
+
+  Future<void> deleteLine(String gameRoomId, Line line) async {
+    await _gameService.deleteLine(gameRoomId, line);
   }
 }
 
@@ -243,3 +267,17 @@ final gameRoomStreamProvider = StreamProvider.autoDispose
   final gameService = ref.watch(gameServiceProvider);
   return gameService.gameRoomStream(gameRoomId);
 });
+
+final canvasStreamProvider =
+    StreamProvider.autoDispose.family<List<Line>, String>((ref, gameRoomId) {
+  final gameService = ref.watch(gameServiceProvider);
+  return gameService.canvasStream(gameRoomId);
+});
+
+final canvasRemovedLineStreamProvider =
+    StreamProvider.autoDispose.family<Line, String>((ref, gameRoomId) {
+  final gameService = ref.watch(gameServiceProvider);
+  return gameService.canvasRemovedLinesStream(gameRoomId);
+});
+
+final gameRoomIdProvider = StateProvider<String?>((ref) => null);

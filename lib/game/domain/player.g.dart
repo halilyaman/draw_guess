@@ -9,9 +9,11 @@ part of 'player.dart';
 _$_Player _$$_PlayerFromJson(Map<String, dynamic> json) => _$_Player(
       id: json['id'] as String,
       name: json['name'] as String,
+      canDraw: json['canDraw'] as bool,
     );
 
 Map<String, dynamic> _$$_PlayerToJson(_$_Player instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'canDraw': instance.canDraw,
     };

@@ -8,11 +8,22 @@ class DrawingBoard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final emptyLine = Line(points: [], color: Colors.green.value);
+    final emptyLine = useRef(Line(
+      points: [],
+      color: Colors.green.value,
+      createdAt: DateTime.now(),
+      drawerId: ref.watch(firebaseAuthProvider).currentUser!.uid,
+    ));
     final drawingBoardNotifier = ref.watch(
       drawingBoardNotifierProvider.notifier,
     );
-    final currentLine = useRef<Line>(emptyLine);
+    final currentLine = useRef<Line>(emptyLine.value);
+
+    void startDraw(_) {
+      currentLine.value = currentLine.value.copyWith(
+        createdAt: DateTime.now(),
+      );
+    }
 
     void draw(DragUpdateDetails details) {
       final pos = details.localPosition;
@@ -25,14 +36,15 @@ class DrawingBoard extends HookConsumerWidget {
 
     void endDraw(_) {
       if (currentLine.value.points.length == 1) {
-        currentLine.value = emptyLine;
+        currentLine.value = emptyLine.value;
       }
       drawingBoardNotifier.endDrawing(currentLine.value);
-      currentLine.value = emptyLine;
+      currentLine.value = emptyLine.value;
     }
 
     return ClipRect(
       child: GestureDetector(
+        onPanStart: startDraw,
         onPanUpdate: draw,
         onPanEnd: endDraw,
         child: Consumer(

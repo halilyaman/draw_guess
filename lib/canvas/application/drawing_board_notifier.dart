@@ -21,7 +21,8 @@ class DrawingBoardState with _$DrawingBoardState {
 }
 
 class DrawingBoardNotifier extends StateNotifier<DrawingBoardState> {
-  DrawingBoardNotifier() : super(const DrawingBoardState.waiting([]));
+  DrawingBoardNotifier()
+      : super(const DrawingBoardState.waiting([]));
 
   void drawLine(Line newLine) {
     state = DrawingBoardState.drawing(state.lines, newLine);
@@ -31,19 +32,36 @@ class DrawingBoardNotifier extends StateNotifier<DrawingBoardState> {
     state = DrawingBoardState.waiting([...state.lines, lastDrawnLine]);
   }
 
-  void clearBoard() {
-    state = const DrawingBoardState.waiting([]);
+  void addNewLines(List<Line> lines) {
+    for (final line in lines) {
+      if (state.lines.contains(line)) {
+        state.lines.removeWhere((e) => e == line);
+      }
+    }
+    state = DrawingBoardState.waiting([...state.lines, ...lines]);
   }
 
-  void back() {
+  void setLines(List<Line> lines) {
+    state = DrawingBoardState.waiting(lines);
+  }
+
+  void removeLine(Line line) {
+    state.lines.removeWhere((e) => e == line);
+    state = DrawingBoardState.waiting(state.lines);
+  }
+
+  List<Line> clearBoard() {
+    final lines = List<Line>.from(state.lines);
+    state = const DrawingBoardState.waiting([]);
+    return lines;
+  }
+
+  Line? back() {
     if (state.lines.isNotEmpty) {
-      state.lines.removeLast();
+      final line = state.lines.removeLast();
       state = DrawingBoardState.waiting(state.lines);
+      return line;
     }
+    return null;
   }
 }
-
-final drawingBoardNotifierProvider =
-    StateNotifierProvider.autoDispose<DrawingBoardNotifier, DrawingBoardState>(
-  (ref) => DrawingBoardNotifier(),
-);

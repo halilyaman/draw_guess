@@ -11,11 +11,15 @@ _$_Line _$$_LineFromJson(Map<String, dynamic> json) => _$_Line(
           .map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
       color: json['color'] as int,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      drawerId: json['drawerId'] as String,
     );
 
 Map<String, dynamic> _$$_LineToJson(_$_Line instance) => <String, dynamic>{
       'points': instance.points.map((e) => e.toJson()).toList(),
       'color': instance.color,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'drawerId': instance.drawerId,
     };
 
 _$_Point _$$_PointFromJson(Map<String, dynamic> json) => _$_Point(

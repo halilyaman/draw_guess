@@ -14,6 +14,10 @@ export 'package:flash/flash.dart';
 export 'package:firebase_storage/firebase_storage.dart';
 export 'dart:async' hide AsyncError;
 export 'package:auto_route/auto_route.dart';
+export 'dart:convert';
+export 'package:equatable/equatable.dart';
+
+
 
 // internal files
 export 'package:draw_guess/firebase_options.dart';
