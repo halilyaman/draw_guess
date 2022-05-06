@@ -12,5 +12,7 @@ AsyncFailureOr<T> safeAsyncCall<T>(Future<T> Function() f) async {
     return left(Failure.local('${e.code}: ${e.message}'));
   } on Exception catch(e) {
     return left(Failure.any(e.toString()));
+  } on Error catch(e) {
+    return left(Failure.any(e.toString()));
   }
 }
